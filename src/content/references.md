@@ -30,6 +30,8 @@ Ferguson, I.A. (1992) *TouringMachines: an architecture for dynamic, rational, m
 
 Finin, T., Fritzson, R., McKay, D. and McEntire, R. (1994) 'KQML as an agent communication language', *Proceedings of the Third International Conference on Information and Knowledge Management (CIKM '94)*, pp. 456–463.
 
+Foundation for Intelligent Physical Agents (2002) *FIPA Communicative Act Library Specification*, SC00037J. Geneva: FIPA. Available at: http://www.fipa.org/specs/fipa00037/
+
 Firth, J.R. (1957) 'A synopsis of linguistic theory, 1930–1955', in *Studies in Linguistic Analysis*. Oxford: Blackwell, pp. 1–32.
 
 Garcez, A. d'A. and Lamb, L.C. (2023) 'Neurosymbolic AI: the 3rd wave', *Artificial Intelligence Review*, 56, pp. 12387–12406.
@@ -85,6 +87,8 @@ Searle, J.R. (1969) *Speech Acts: An Essay in the Philosophy of Language*. Cambr
 Shinn, N., Cassano, F., Gopinath, A., Narasimhan, K. and Yao, S. (2023) 'Reflexion: language agents with verbal reinforcement learning', *Advances in Neural Information Processing Systems*, 36, pp. 8634–8652.
 
 Singh, M.P. (1998) 'Agent communication languages: rethinking the principles', *IEEE Computer*, 31(12), pp. 40–47.
+
+Smith, R.G. (1980) 'The contract net protocol: high-level communication and control in a distributed problem solver', *IEEE Transactions on Computers*, C-29(12), pp. 1104–1113.
 
 Thrun, S. et al. (2006) 'Stanley: the robot that won the DARPA Grand Challenge', *Journal of Field Robotics*, 23(9), pp. 661–692.
 

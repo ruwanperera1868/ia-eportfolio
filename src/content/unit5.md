@@ -1,6 +1,6 @@
 # Unit 5: Agent Communication
 
-Speech act theory treats saying as doing (Austin, 1962; Searle, 1969). Agent communication languages turn this into performatives: KQML messages such as tell, ask-one and achieve carry a content expression, a content language and an ontology (Finin et al., 1994). An ontology is an explicit specification of a shared conceptualisation (Gruber, 1993). FIPA-ACL later gave each act a formal semantics, though Singh (1998) argued mental-state semantics cannot be verified from outside.
+Speech act theory treats saying as doing (Austin, 1962; Searle, 1969). Agent communication languages turn this into performatives: KQML messages such as tell, ask-one and achieve carry a content expression, a content language and an ontology (Finin et al., 1994). An ontology is an explicit specification of a shared conceptualisation (Gruber, 1993). FIPA-ACL later gave each act a formal semantics (FIPA, 2002), though Singh (1998) argued mental-state semantics cannot be verified from outside.
 
 ## Artefact: KQML agents over a shared ontology
 

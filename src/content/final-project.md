@@ -75,6 +75,8 @@ R1 to R5 came from offline testing; R6 to R9 from live runs on 11 October 2026 (
 
 Without the LLM, appraisal falls back to a keyword heuristic; only abstracts are read; relevance is term overlap rather than semantic similarity; and the web app handles one user at a time. Next steps are embedding-based relevance, PostgreSQL and evaluation against a hand-labelled set of appraisals.
 
+Two evaluation gaps remain. First, the Critic and the Reporter's grounding check run on the same model that produced the appraisals, so agreement between them is not independent confirmation; a hand-labelled set and blinded comparison against a fixed retrieve-and-summarise baseline would be. Second, removing ungrounded citations raises the share of supported claims, but a briefing that drops every hard claim would score perfectly while saying little, so supported-claim precision should always be reported alongside how many claims survived.
+
 ::: todo
 Add screenshots from the repository's evidence folder (the briefing page, the audit trail and the live CLI run), your presentation slides or recording, and any tutor feedback.
 :::

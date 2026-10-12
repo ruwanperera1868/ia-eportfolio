@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Key Concepts | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="concepts.html" class="active" aria-current="page"><span>Key concepts</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Overview</p><h1>Key Concepts</h1></header>
+<p>A working glossary of the ideas each unit relied on. Each entry gives a short definition, then the place in this portfolio where the idea showed up in practice. Full sources are in the <a href="references.html">references</a>.</p>
+<h2 id="agents-and-their-properties">Agents and their properties</h2>
+<p><strong>Agent.</strong> A computer system situated in an environment and able to act autonomously there to meet its objectives (Wooldridge and Jennings, 1995). In the <a href="final-project.html">final project</a> the agent is the whole LangGraph workflow, not the language model inside it.</p>
+<p><strong>Autonomy.</strong> Control over some decisions without step-by-step direction. Its scope has to be named: the Investigator may re-plan its own search, but only three times and only against approved sources.</p>
+<p><strong>Reactivity and pro-activeness.</strong> Reactivity is responding to change in time to matter; pro-activeness is taking initiative towards a goal. The <a href="unit1.html">Unit 1</a> model-based agent is pro-active (it heads for unvisited cells), while the reflex agent only reacts to the cell it is in.</p>
+<p><strong>Social ability.</strong> Interacting with other agents or people through an agreed protocol. Multiple agents do not by themselves give independent judgement, a point that matters for the project’s Critic.</p>
+<h2 id="reasoning-and-architectures">Reasoning and architectures</h2>
+<p><strong>Predicates and quantifier scope.</strong> First-order logic states properties and relations over objects; the order of quantifiers changes meaning. “Every paper has a reviewer” does not mean one reviewer reviews every paper (<a href="unit2.html">Unit 2</a>).</p>
+<p><strong>Subsumption.</strong> Layered situation-action rules with no world model, where higher layers suppress lower ones (Brooks, 1986). Fast and robust, but in <a href="unit3.html">Unit 3</a> it collected a quarter of what the BDI agent did because it forgot what it had seen.</p>
+<p><strong>Belief, desire, intention (BDI).</strong> Beliefs are what the agent holds true, desires are options, intentions are the options it has committed to and that filter later choices (Rao and Georgeff, 1995). The Unit 3 BDI agent remembers packages it has seen and commits to one trip at a time, at the risk of acting on stale beliefs.</p>
+<p><strong>Safety versus liveness.</strong> Safety means nothing bad happens; liveness means something good eventually does. The <a href="unit4.html">Unit 4</a> reserve sweep shows the trade directly: a larger battery reserve cut strandings from 146 to 10 but also cut deliveries from 17.4 to 4.9.</p>
+<h2 id="communication-and-cooperation">Communication and cooperation</h2>
+<p><strong>Performative.</strong> The act a message performs, such as tell, ask-one or achieve, separate from its content (Finin et al., 1994). Agreeing to do something is a different act from reporting it done, so a protocol needs both.</p>
+<p><strong>Ontology.</strong> An explicit specification of a shared conceptualisation (Gruber, 1993). In <a href="unit5.html">Unit 5</a> the same question under a different ontology name failed outright.</p>
+<p><strong>Contract Net.</strong> Task allocation by announcement, bids and award (Smith, 1980). The project deliberately did not use it: a fixed LangGraph route was easier to test and audit than agents negotiating for work, at the cost of flexibility.</p>
+<h2 id="language-and-learning">Language and learning</h2>
+<p><strong>Distributional hypothesis.</strong> Words that occur in similar contexts have similar meanings (Firth, 1957), the idea behind Word2Vec. The <a href="unit7.html">Unit 7</a> skip-gram model placed words from the same group at cosine similarity 0.98 against 0.45 across groups.</p>
+<p><strong>Structural ambiguity.</strong> One sentence, more than one valid parse. The <a href="unit8.html">Unit 8</a> grammar gives two trees for a sentence with a prepositional phrase that can attach to the verb or the noun.</p>
+<p><strong>Linear separability.</strong> A single perceptron can only draw one straight boundary, so it cannot learn XOR (Minsky and Papert, 1969). A hidden layer solved it in 10 of 10 runs in <a href="unit9.html">Unit 9</a>.</p>
+<p><strong>Representation bias.</strong> When a group is under-represented in training data, overall accuracy can look good while that group is served badly. In <a href="unit10.html">Unit 10</a>, at a 2% share, overall error was 1.0% but the minority group’s error was 31.8%.</p>
+<h2 id="agents-in-action">Agents in action</h2>
+<p><strong>Emergence.</strong> System-level behaviour that no single agent was programmed to produce. In the <a href="unit11.html">Unit 11</a> market, letting traders switch strategy turned calm prices into volatility clustering and bubbles.</p>
+<p><strong>Reasoning and acting.</strong> Interleaving model reasoning with tool calls and observations (Yao et al., 2023). The Investigator follows this pattern but keeps the control loop in code, so the model never decides on its own when to stop.</p>
+<p><strong>Evidence gate and its trade-off.</strong> A rule that only lets supported claims into the final output. Measured alone it can be gamed: a system that drops every difficult claim reaches 100% support while answering little. Support and coverage have to be reported together.</p>
+<p><strong>Human oversight.</strong> Keeping a person able to understand, check and override what an agent does, one of the governance questions in <a href="unit12.html">Unit 12</a>. The Investigator supports this with an audit trail of every search, appraisal and stopping decision, and it drafts a briefing for a person to judge rather than acting on its findings.</p>
+
+<nav class="pager"><a class="prev" href="index.html"><small>Previous</small>Intelligent Agents E-Portfolio</a><a class="next" href="references.html"><small>Next</small>References</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>
