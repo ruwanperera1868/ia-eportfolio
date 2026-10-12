@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 10: Deep Learning in Action | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html" class="active" aria-current="page"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Unit 10</p><h1>Unit 10: Deep Learning in Action</h1></header>
+<h2 id="appraising-deployed-technologies">Appraising deployed technologies</h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Text-to-image generation (e.g. Stable Diffusion)</th>
+<th>Facial recognition and analysis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What it does</td>
+<td>Generates images from prompts with latent diffusion (Rombach et al., 2022)</td>
+<td>Detects, classifies or identifies faces with deep networks</td>
+</tr>
+<tr class="even">
+<td>Data</td>
+<td>Billions of web image-text pairs such as LAION-5B (Schuhmann et al., 2022), largely without creators’ consent</td>
+<td>Large face datasets, historically skewed towards lighter-skinned men</td>
+</tr>
+<tr class="odd">
+<td>Benefits</td>
+<td>Cheaper illustration and design</td>
+<td>Phone unlocking, border checks</td>
+</tr>
+<tr class="even">
+<td>Harms</td>
+<td>Copyright disputes, including Getty Images’ 2023 action against Stability AI; deepfakes; stereotyped outputs</td>
+<td>Surveillance and misidentification; error rates up to 34.7% for darker-skinned women against 0.8% for lighter-skinned men (Buolamwini and Gebru, 2018)</td>
+</tr>
+<tr class="odd">
+<td>Regulation</td>
+<td>Copyright law, under active litigation</td>
+<td>The EU AI Act bans untargeted scraping of facial images and restricts real-time remote biometric identification</td>
+</tr>
+</tbody>
+</table></div>
+<p>In both, the model mirrors its data. Practitioners undervalue data work, which causes compounding failures downstream (Sambasivan et al., 2021).</p>
+<h2 id="artefact-how-imbalanced-data-hides-harm">Artefact: how imbalanced data hides harm</h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Share of group B in training</th>
+<th>Overall error</th>
+<th>Error on group A</th>
+<th>Error on group B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2%</td>
+<td>1.0%</td>
+<td>0.4%</td>
+<td>31.8%</td>
+</tr>
+<tr class="even">
+<td>10%</td>
+<td>6.2%</td>
+<td>3.7%</td>
+<td>28.1%</td>
+</tr>
+<tr class="odd">
+<td>30%</td>
+<td>13.3%</td>
+<td>9.6%</td>
+<td>21.9%</td>
+</tr>
+<tr class="even">
+<td>50%</td>
+<td>16.1%</td>
+<td>17.4%</td>
+<td>14.8%</td>
+</tr>
+</tbody>
+</table></div>
+<p>At 2%, the model looks excellent overall while failing nearly a third of group B; only disaggregated evaluation reveals it. Balancing the data evens the errors but raises overall error, because one simple model cannot fit both groups: fairness needed a better model, not just more balanced data.</p>
+<details><summary>Show unit10/data_imbalance.py</summary><pre><code class="language-python">&quot;&quot;&quot;Unit 10: how unrepresentative training data produces unequal error rates.
+
+A classifier is trained on data where group B makes up only a small share,
+and group B&#x27;s examples follow a slightly different pattern. Overall accuracy
+looks fine; splitting the errors by group (as Buolamwini and Gebru, 2018,
+did for face analysis) shows who pays for the imbalance.
+&quot;&quot;&quot;
+import numpy as np
+
+rng = np.random.default_rng(1)
+
+
+def make_group(n, shift):
+    &quot;&quot;&quot;Two features; the true decision boundary is rotated by `shift`.&quot;&quot;&quot;
+    X = rng.normal(0, 1, (n, 2))
+    w_true = np.array([np.cos(shift), np.sin(shift)])
+    y = (X @ w_true &gt; 0).astype(float)
+    return X, y
+
+
+def train_logistic(X, y, epochs=500, lr=0.5):
+    Xb = np.hstack([X, np.ones((len(X), 1))])
+    w = np.zeros(Xb.shape[1])
+    for _ in range(epochs):
+        p = 1 / (1 + np.exp(-Xb @ w))
+        w -= lr * Xb.T @ (p - y) / len(y)
+    return w
+
+
+def error_rate(w, X, y):
+    Xb = np.hstack([X, np.ones((len(X), 1))])
+    return float(np.mean(((Xb @ w) &gt; 0) != y))
+
+
+SHIFT_B = 1.0                      # group B&#x27;s pattern differs by ~57 degrees
+XA_test, yA_test = make_group(5000, 0.0)
+XB_test, yB_test = make_group(5000, SHIFT_B)
+
+print(f&quot;{&#x27;share of B in training&#x27;:&gt;24} | {&#x27;overall error&#x27;:&gt;13} | {&#x27;error on A&#x27;:&gt;10} | {&#x27;error on B&#x27;:&gt;10}&quot;)
+for share_b in (0.02, 0.10, 0.30, 0.50):
+    n = 2000
+    XA, yA = make_group(int(n * (1 - share_b)), 0.0)
+    XB, yB = make_group(int(n * share_b), SHIFT_B)
+    w = train_logistic(np.vstack([XA, XB]), np.concatenate([yA, yB]))
+    ea, eb = error_rate(w, XA_test, yA_test), error_rate(w, XB_test, yB_test)
+    overall = (1 - share_b) * ea + share_b * eb   # population with the same mix
+    print(f&quot;{share_b:&gt;23.0%} | {overall:&gt;13.1%} | {ea:&gt;10.1%} | {eb:&gt;10.1%}&quot;)
+</code></pre></details><p class="download">Download: <a href="code/unit10/data_imbalance.py">unit10/data_imbalance.py</a></p>
+<div class="todo">
+<p>Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.</p>
+</div>
+
+<nav class="pager"><a class="prev" href="unit9.html"><small>Previous</small>Unit 9: Introduction to Adaptive Algorithms</a><a class="next" href="unit11.html"><small>Next</small>Unit 11: Intelligent Agents in Action</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>

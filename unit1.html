@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1: Introduction to Agent-Based Computing | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html" class="active" aria-current="page"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Unit 1</p><h1>Unit 1: Introduction to Agent-Based Computing</h1></header>
+<p>An agent is a computer system situated in an environment and capable of autonomous action there to meet its objectives (Wooldridge and Jennings, 1995), with four properties: autonomy, reactivity, pro-activeness and social ability. Wooldridge (2009) traces the rise of agents to five trends: ubiquity, interconnection, intelligence, delegation and human-orientation.</p>
+<h2 id="artefact-comparing-agent-types">Artefact: comparing agent types</h2>
+<p>The script compares two agent programs from Russell and Norvig (2021) in a corridor of dirty cells. Both perceive only their own cell. The simple reflex agent moves at random when its cell is clean; the model-based agent remembers where it has been and heads for the nearest unvisited cell.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Corridor (cells)</th>
+<th>Simple reflex, mean steps</th>
+<th>Model-based, mean steps</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5</td>
+<td>17.7</td>
+<td>6.3</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>86.9</td>
+<td>15.4</td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td>390.5 (some runs hit the 1,000-step cap)</td>
+<td>34.9</td>
+</tr>
+</tbody>
+</table></div>
+<p>A little internal state turned a random walk into a near-linear sweep. The cost is an assumption: the model-based agent believes visited cells stay clean, which would be wrong in a world where dirt returns.</p>
+<details><summary>Show unit1/agent_types.py</summary><pre><code class="language-python">&quot;&quot;&quot;Unit 1: comparing a simple reflex agent with a model-based reflex agent.
+
+Environment: a corridor of N cells, some dirty. The agent perceives only its
+own cell (location, dirty?) and can Suck, move Left or move Right.
+Agent types follow Russell and Norvig (2021, ch. 2).
+&quot;&quot;&quot;
+import random
+import statistics
+
+
+class Corridor:
+    def __init__(self, n_cells, dirt_prob, rng):
+        self.dirty = [rng.random() &lt; dirt_prob for _ in range(n_cells)]
+        self.pos = rng.randrange(n_cells)
+
+    def percept(self):
+        return self.pos, self.dirty[self.pos]
+
+    def act(self, action):
+        if action == &quot;Suck&quot;:
+            self.dirty[self.pos] = False
+        elif action == &quot;Left&quot;:
+            self.pos = max(0, self.pos - 1)
+        elif action == &quot;Right&quot;:
+            self.pos = min(len(self.dirty) - 1, self.pos + 1)
+
+    def clean(self):
+        return not any(self.dirty)
+
+
+class SimpleReflexAgent:
+    &quot;&quot;&quot;Condition-action rules on the current percept only; no memory.&quot;&quot;&quot;
+
+    def __init__(self, rng):
+        self.rng = rng
+
+    def __call__(self, percept):
+        _, dirty = percept
+        if dirty:
+            return &quot;Suck&quot;
+        return self.rng.choice([&quot;Left&quot;, &quot;Right&quot;])
+
+
+class ModelBasedAgent:
+    &quot;&quot;&quot;Keeps an internal model of which cells it has seen clean,
+    and heads for the nearest cell it has not yet visited.&quot;&quot;&quot;
+
+    def __init__(self, n_cells):
+        self.unvisited = set(range(n_cells))
+
+    def __call__(self, percept):
+        pos, dirty = percept
+        self.unvisited.discard(pos)
+        if dirty:
+            return &quot;Suck&quot;
+        if not self.unvisited:
+            return &quot;NoOp&quot;
+        target = min(self.unvisited, key=lambda c: abs(c - pos))
+        return &quot;Left&quot; if target &lt; pos else &quot;Right&quot;
+
+
+def run(make_agent, n_cells, seed, max_steps=1000):
+    rng = random.Random(seed)
+    env = Corridor(n_cells, dirt_prob=0.5, rng=rng)
+    agent = make_agent(rng, n_cells)
+    for step in range(max_steps):
+        if env.clean():
+            return step
+        env.act(agent(env.percept()))
+    return max_steps
+
+
+if __name__ == &quot;__main__&quot;:
+    agents = {
+        &quot;Simple reflex&quot;: lambda rng, n: SimpleReflexAgent(rng),
+        &quot;Model-based reflex&quot;: lambda rng, n: ModelBasedAgent(n),
+    }
+    for n_cells in (5, 10, 20):
+        print(f&quot;Corridor of {n_cells} cells, 200 trials&quot;)
+        for name, factory in agents.items():
+            steps = [run(factory, n_cells, seed) for seed in range(200)]
+            print(f&quot;  {name:&lt;20} mean steps to clean: {statistics.mean(steps):6.1f}&quot;
+                  f&quot;  worst: {max(steps)}&quot;)
+</code></pre></details><p class="download">Download: <a href="code/unit1/agent_types.py">unit1/agent_types.py</a></p>
+<h2 id="discussion-1-preparation">Discussion 1 preparation</h2>
+<p>The additional task asked how LLM-powered agents are designed for research and information gathering. The key ideas were planning by task decomposition, tool use, memory and self-critique (Weng, 2023; Wang et al., 2024), with ReAct interleaving reasoning and actions (Yao et al., 2023) and Reflexion learning from failed attempts (Shinn et al., 2023). These same ideas later shaped the team’s Planner and Critic design.</p>
+<div class="todo">
+<p>Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.</p>
+</div>
+
+<nav class="pager"><a class="prev" href="forums.html"><small>Previous</small>Collaborative Discussions</a><a class="next" href="unit2.html"><small>Next</small>Unit 2: Introducing First Order Logic</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>

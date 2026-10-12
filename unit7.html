@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 7: Natural Language Processing | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html" class="active" aria-current="page"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Unit 7</p><h1>Unit 7: Natural Language Processing</h1></header>
+<p>Language is ambiguous at every level: lexical, syntactic, referential, pragmatic and figurative (Jurafsky and Martin, 2024). NLP moved from rules to statistics to neural models; Word2Vec learns dense word vectors by predicting context words (Mikolov et al., 2013), building on the distributional hypothesis (Firth, 1957). Embeddings also absorb social bias from their training text (Bolukbasi et al., 2016).</p>
+<h2 id="artefact-word2vec-from-scratch">Artefact: Word2Vec from scratch</h2>
+<p>A skip-gram model with negative sampling, written in NumPy, trained on 3,000 template sentences with four hidden word groups the model is never told about.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th>Word</th>
+<th>Three nearest neighbours (cosine similarity)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>robot</td>
+<td>drone 0.98, rover 0.98, base 0.68</td>
+</tr>
+<tr class="even">
+<td>cat</td>
+<td>horse 0.99, dog 0.98, meat 0.73</td>
+</tr>
+<tr class="odd">
+<td>fish</td>
+<td>meat 0.99, grain 0.97, dog 0.77</td>
+</tr>
+<tr class="even">
+<td>dock</td>
+<td>base 0.99, station 0.99, rover 0.70</td>
+</tr>
+</tbody>
+</table></div>
+<p>Words in the same hidden group averaged 0.98 similarity against 0.45 across groups. The model also learned which groups co-occur (robot near base, cat near meat), the same mechanism by which real embeddings absorb stereotypes.</p>
+<details><summary>Show unit7/word2vec_mini.py</summary><pre><code class="language-python">&quot;&quot;&quot;Unit 7: a minimal Word2Vec (skip-gram with negative sampling) in NumPy.
+
+Word2Vec (Mikolov et al., 2013) learns a vector for each word by training it
+to predict the words around it. Words used in similar contexts end up with
+similar vectors: the distributional hypothesis (&quot;you shall know a word by the
+company it keeps&quot;, Firth, 1957).
+
+The corpus is generated from templates so that we know which words share
+contexts, and can check whether the model discovers those groups by itself.
+&quot;&quot;&quot;
+import numpy as np
+
+rng = np.random.default_rng(0)
+
+# ---- 1. A synthetic corpus with hidden word groups ----
+groups = {
+    &quot;machine&quot;: [&quot;robot&quot;, &quot;drone&quot;, &quot;rover&quot;],
+    &quot;animal&quot;: [&quot;cat&quot;, &quot;dog&quot;, &quot;horse&quot;],
+    &quot;food&quot;: [&quot;fish&quot;, &quot;meat&quot;, &quot;grain&quot;],
+    &quot;place&quot;: [&quot;dock&quot;, &quot;base&quot;, &quot;station&quot;],
+}
+templates = [
+    (&quot;the&quot;, &quot;machine&quot;, &quot;moves&quot;, &quot;to&quot;, &quot;the&quot;, &quot;place&quot;),
+    (&quot;the&quot;, &quot;machine&quot;, &quot;charges&quot;, &quot;at&quot;, &quot;the&quot;, &quot;place&quot;),
+    (&quot;the&quot;, &quot;animal&quot;, &quot;eats&quot;, &quot;the&quot;, &quot;food&quot;),
+    (&quot;the&quot;, &quot;animal&quot;, &quot;sleeps&quot;, &quot;near&quot;, &quot;the&quot;, &quot;food&quot;),
+    (&quot;a&quot;, &quot;machine&quot;, &quot;senses&quot;, &quot;the&quot;, &quot;place&quot;),
+    (&quot;a&quot;, &quot;animal&quot;, &quot;smells&quot;, &quot;the&quot;, &quot;food&quot;),
+]
+sentences = []
+for _ in range(3000):
+    t = templates[rng.integers(len(templates))]
+    sentences.append([str(rng.choice(groups[w])) if w in groups else w for w in t])
+
+vocab = sorted({str(w) for s in sentences for w in s})
+idx = {w: i for i, w in enumerate(vocab)}
+counts = np.zeros(len(vocab))
+for s in sentences:
+    for w in s:
+        counts[idx[w]] += 1
+
+# ---- 2. Training pairs: (centre word, context word) within a window ----
+WINDOW, DIM, NEG, EPOCHS, LR = 2, 16, 5, 5, 0.05
+pairs = [(idx[s[i]], idx[s[j]])
+         for s in sentences for i in range(len(s))
+         for j in range(max(0, i - WINDOW), min(len(s), i + WINDOW + 1)) if j != i]
+pairs = np.array(pairs)
+
+# negative samples drawn from the unigram distribution raised to 3/4
+noise = counts ** 0.75
+noise /= noise.sum()
+
+W_in = (rng.random((len(vocab), DIM)) - 0.5) / DIM     # word vectors we keep
+W_out = np.zeros((len(vocab), DIM))                    # context vectors
+
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+
+# ---- 3. Skip-gram with negative sampling, plain SGD ----
+for epoch in range(EPOCHS):
+    rng.shuffle(pairs)
+    loss = 0.0
+    for centre, context in pairs:
+        targets = np.concatenate(([context], rng.choice(len(vocab), NEG, p=noise)))
+        labels = np.zeros(NEG + 1)
+        labels[0] = 1                                   # real pair = 1, noise = 0
+        v = W_in[centre].copy()
+        u = W_out[targets].copy()
+        p = sigmoid(u @ v)
+        grad = p - labels
+        loss -= np.log(p[0] + 1e-9) + np.log(1 - p[1:] + 1e-9).sum()
+        W_in[centre] -= LR * grad @ u
+        W_out[targets] -= LR * np.outer(grad, v)
+    print(f&quot;epoch {epoch + 1}: mean loss {loss / len(pairs):.3f}&quot;)
+
+
+# ---- 4. Did similar words get similar vectors? ----
+def similar(word, k=3):
+    norm = W_in / np.linalg.norm(W_in, axis=1, keepdims=True)
+    sims = norm @ norm[idx[word]]
+    order = [i for i in np.argsort(-sims) if vocab[i] != word]
+    return [(vocab[i], round(float(sims[i]), 2)) for i in order[:k]]
+
+
+print(&quot;\nNearest neighbours by cosine similarity:&quot;)
+for w in [&quot;robot&quot;, &quot;cat&quot;, &quot;fish&quot;, &quot;dock&quot;, &quot;moves&quot;]:
+    print(f&quot;  {w:&lt;7} {similar(w)}&quot;)
+
+within, across = [], []
+norm = W_in / np.linalg.norm(W_in, axis=1, keepdims=True)
+members = {w: g for g, ws in groups.items() for w in ws}
+for a in members:
+    for b in members:
+        if a &lt; b:
+            s = float(norm[idx[a]] @ norm[idx[b]])
+            (within if members[a] == members[b] else across).append(s)
+print(f&quot;\nMean similarity within a hidden group: {np.mean(within):.2f}&quot;)
+print(f&quot;Mean similarity across groups:         {np.mean(across):.2f}&quot;)
+</code></pre></details><p class="download">Download: <a href="code/unit7/word2vec_mini.py">unit7/word2vec_mini.py</a></p>
+<div class="todo">
+<p>Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.</p>
+</div>
+
+<nav class="pager"><a class="prev" href="unit6.html"><small>Previous</small>Unit 6: Working Together</a><a class="next" href="unit8.html"><small>Next</small>Unit 8: Understanding NLP</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 3: Agent Architectures | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html" class="active" aria-current="page"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Unit 3</p><h1>Unit 3: Agent Architectures</h1></header>
+<p>Deliberative agents reason over a symbolic world model; reactive agents such as Brooks’ (1986; 1991) subsumption architecture act through layered situation-action rules with no model; BDI agents, rooted in Bratman’s (1987) practical reasoning, separate beliefs, desires and intentions. Desires are options the agent would like to achieve; intentions are the desires it has committed to, which persist and filter later choices (Rao and Georgeff, 1995).</p>
+<h2 id="artefact-reactive-versus-bdi-agent">Artefact: reactive versus BDI agent</h2>
+<p>Both agents collect packages on a 10 by 10 grid with a charger and a battery, sensing packages only within 2 cells. The subsumption agent has three layers (survive, collect, wander); the BDI agent remembers packages it has seen and commits to one trip at a time.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th>Agent</th>
+<th>Packages, mean of 200 runs</th>
+<th>Min</th>
+<th>Max</th>
+<th>Ran out of battery</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Subsumption (reactive)</td>
+<td>8.8</td>
+<td>0</td>
+<td>33</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>BDI</td>
+<td>35.0</td>
+<td>11</td>
+<td>49</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tracing a zero-package reactive run showed the survive layer kept pulling the agent back to the charger, so it never reached packages on the far side. It was safe but ineffective. The BDI agent’s memory and commitment let it plan whole trips, at the cost of more code and of acting on beliefs that may be stale.</p>
+<details><summary>Show unit3/architectures.py</summary><pre><code class="language-python">&quot;&quot;&quot;Unit 3: a reactive (subsumption) agent versus a BDI agent.
+
+World: a 10x10 grid with a charger at (0, 0) and three packages at a time.
+Collecting a package (stepping on it) spawns a new one elsewhere. Each move
+costs 1 battery; standing on the charger refills it. At 0 battery the agent
+stops for good. Both agents sense packages within 2 cells and always know
+where the charger is.
+&quot;&quot;&quot;
+import random
+import statistics
+
+SIZE, CHARGER, MAX_BATTERY, SENSE = 10, (0, 0), 40, 2
+
+
+def dist(a, b):
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
+
+def step_towards(pos, target):
+    (x, y), (tx, ty) = pos, target
+    if x != tx:
+        return (x + (1 if tx &gt; x else -1), y)
+    if y != ty:
+        return (x, y + (1 if ty &gt; y else -1))
+    return pos
+
+
+class World:
+    def __init__(self, rng):
+        self.rng = rng
+        self.packages = set()
+        while len(self.packages) &lt; 3:
+            self._spawn()
+
+    def _spawn(self):
+        while True:
+            p = (self.rng.randrange(SIZE), self.rng.randrange(SIZE))
+            if p != CHARGER and p not in self.packages:
+                self.packages.add(p)
+                return
+
+    def sensed(self, pos):
+        return {p for p in self.packages if dist(p, pos) &lt;= SENSE}
+
+    def collect(self, pos):
+        if pos in self.packages:
+            self.packages.remove(pos)
+            self._spawn()
+            return True
+        return False
+
+
+class SubsumptionAgent:
+    &quot;&quot;&quot;Brooks-style layers; a higher layer suppresses the ones below it.
+    No memory and no planning: each step is a fresh reaction.&quot;&quot;&quot;
+
+    def __init__(self, rng):
+        self.rng = rng
+
+    def act(self, pos, battery, sensed):
+        if battery &lt;= dist(pos, CHARGER) + 2:        # layer 1: survive
+            return step_towards(pos, CHARGER)
+        if sensed:                                   # layer 2: collect
+            return step_towards(pos, min(sensed, key=lambda p: dist(p, pos)))
+        x, y = pos                                   # layer 3: wander
+        moves = [(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))
+                 if 0 &lt;= x + dx &lt; SIZE and 0 &lt;= y + dy &lt; SIZE]
+        return self.rng.choice(moves)
+
+
+class BDIAgent:
+    &quot;&quot;&quot;Beliefs: remembered package locations and battery level.
+    Desires: every known package, plus staying charged.
+    Intention: the one desire it has committed to; it keeps it until it is
+    achieved or believed impossible, re-deliberating only then.&quot;&quot;&quot;
+
+    RESERVE = 1                     # spare battery kept for the trip home
+
+    def __init__(self, rng):
+        self.rng = rng
+        self.known = set()          # beliefs about where packages are
+        self.intention = None       # (&quot;collect&quot;, p) | (&quot;recharge&quot;,) | (&quot;explore&quot;, p)
+
+    def deliberate(self, pos, battery):
+        options = [p for p in self.known
+                   if battery &gt;= dist(pos, p) + dist(p, CHARGER) + self.RESERVE]
+        if options:
+            return (&quot;collect&quot;, min(options, key=lambda p: dist(p, pos)))
+        if (self.known and battery &lt; MAX_BATTERY) or battery &lt;= dist(pos, CHARGER) + 6:
+            return (&quot;recharge&quot;,)
+        target = (self.rng.randrange(SIZE), self.rng.randrange(SIZE))
+        return (&quot;explore&quot;, target)
+
+    def act(self, pos, battery, sensed):
+        # belief revision: add what is seen, drop packages seen to be gone
+        self.known |= sensed
+        self.known -= {p for p in self.known if dist(p, pos) &lt;= SENSE and p not in sensed}
+        it = self.intention
+        achieved = (it is None
+                    or (it[0] == &quot;recharge&quot; and battery == MAX_BATTERY)
+                    or (it[0] == &quot;collect&quot; and it[1] not in self.known)
+                    or (it[0] == &quot;explore&quot; and pos == it[1]))
+        unsafe = it is not None and it[0] != &quot;recharge&quot; and battery &lt;= dist(pos, CHARGER) + self.RESERVE
+        if achieved or unsafe:
+            self.intention = (&quot;recharge&quot;,) if unsafe else self.deliberate(pos, battery)
+        it = self.intention
+        target = CHARGER if it[0] == &quot;recharge&quot; else it[1]
+        return step_towards(pos, target)
+
+
+def run(agent_cls, seed, steps=400):
+    rng = random.Random(seed)
+    world, agent = World(rng), agent_cls(random.Random(seed + 1))
+    pos, battery, collected = CHARGER, MAX_BATTERY, 0
+    for _ in range(steps):
+        if battery == 0:
+            return collected, True
+        new = agent.act(pos, battery, world.sensed(pos))
+        if new != pos:
+            battery -= 1
+        pos = new
+        if pos == CHARGER:
+            battery = MAX_BATTERY
+        if world.collect(pos):
+            collected += 1
+    return collected, False
+
+
+if __name__ == &quot;__main__&quot;:
+    print(&quot;400 steps per run, 200 runs per agent&quot;)
+    for cls in (SubsumptionAgent, BDIAgent):
+        results = [run(cls, s) for s in range(200)]
+        got = [c for c, _ in results]
+        dead = sum(d for _, d in results)
+        print(f&quot;  {cls.__name__:&lt;17} packages: mean {statistics.mean(got):5.1f}, &quot;
+              f&quot;min {min(got):3d}, max {max(got):3d}; ran out of battery: {dead}/200&quot;)
+</code></pre></details><p class="download">Download: <a href="code/unit3/architectures.py">unit3/architectures.py</a></p>
+<div class="todo">
+<p>Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.</p>
+</div>
+
+<nav class="pager"><a class="prev" href="unit2.html"><small>Previous</small>Unit 2: Introducing First Order Logic</a><a class="next" href="unit4.html"><small>Next</small>Unit 4: Hybrid Agent Architectures</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>

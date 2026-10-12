@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 9: Introduction to Adaptive Algorithms | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html" class="active" aria-current="page"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Unit 9</p><h1>Unit 9: Introduction to Adaptive Algorithms</h1></header>
+<p>A single perceptron (Rosenblatt, 1958) can only draw one straight line, so it cannot learn XOR (Minsky and Papert, 1969). Backpropagation made multi-layer networks trainable (Rumelhart, Hinton and Williams, 1986), and deep learning stacks many layers to learn features from raw data (LeCun, Bengio and Hinton, 2015), at the cost of data, compute and transparency (Rudin, 2019).</p>
+<h2 id="artefact-perceptron-versus-hidden-layer-network">Artefact: perceptron versus hidden-layer network</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Task</th>
+<th>Target</th>
+<th>Learned</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Perceptron</td>
+<td>AND</td>
+<td>0 0 0 1</td>
+<td>0 0 0 1</td>
+</tr>
+<tr class="even">
+<td>Perceptron</td>
+<td>XOR</td>
+<td>0 1 1 0</td>
+<td>1 1 0 0</td>
+</tr>
+<tr class="odd">
+<td>4 hidden units, backpropagation</td>
+<td>XOR</td>
+<td>0 1 1 0</td>
+<td>0 1 1 0</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th>Epoch</th>
+<th>0</th>
+<th>100</th>
+<th>1,000</th>
+<th>5,000</th>
+<th>9,999</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean squared error</td>
+<td>0.3430</td>
+<td>0.2502</td>
+<td>0.2188</td>
+<td>0.0022</td>
+<td>0.0008</td>
+</tr>
+</tbody>
+</table></div>
+<p>The network solved XOR from all 10 random starting points tried, after a long plateau where it appeared to learn nothing. Its final weights give the right answers but explain nothing about how.</p>
+<details><summary>Show unit9/neural_xor.py</summary><pre><code class="language-python">&quot;&quot;&quot;Unit 9: why neural networks need hidden layers.
+
+A single perceptron can only draw one straight line, so it cannot learn XOR
+(Minsky and Papert, 1969). Adding a hidden layer trained by backpropagation
+(Rumelhart, Hinton and Williams, 1986) solves it. Written in NumPy so every
+step of the forward and backward pass is visible.
+&quot;&quot;&quot;
+import numpy as np
+
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=float)
+y_and = np.array([0, 0, 0, 1], dtype=float)
+y_xor = np.array([0, 1, 1, 0], dtype=float)
+
+
+def perceptron(X, y, epochs=100, lr=0.1):
+    &quot;&quot;&quot;Rosenblatt&#x27;s perceptron learning rule with a step activation.&quot;&quot;&quot;
+    w, b = np.zeros(2), 0.0
+    for _ in range(epochs):
+        for xi, target in zip(X, y):
+            pred = float(xi @ w + b &gt; 0)
+            w += lr * (target - pred) * xi
+            b += lr * (target - pred)
+    return (X @ w + b &gt; 0).astype(int)
+
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+
+def mlp(X, y, hidden=4, epochs=10000, lr=0.5, seed=0):
+    &quot;&quot;&quot;Two-layer network: 2 inputs -&gt; hidden sigmoid units -&gt; 1 sigmoid output.&quot;&quot;&quot;
+    rng = np.random.default_rng(seed)
+    W1, b1 = rng.normal(0, 1, (2, hidden)), np.zeros(hidden)
+    W2, b2 = rng.normal(0, 1, hidden), 0.0
+    history = []
+    for epoch in range(epochs):
+        h = sigmoid(X @ W1 + b1)                 # forward pass
+        out = sigmoid(h @ W2 + b2)
+        loss = np.mean((out - y) ** 2)
+        d_out = 2 * (out - y) / len(y) * out * (1 - out)   # backward pass
+        d_h = np.outer(d_out, W2) * h * (1 - h)
+        W2 -= lr * h.T @ d_out
+        b2 -= lr * d_out.sum()
+        W1 -= lr * X.T @ d_h
+        b1 -= lr * d_h.sum(axis=0)
+        if epoch in (0, 100, 1000, 5000, epochs - 1):
+            history.append((epoch, loss))
+    return out, history
+
+
+if __name__ == &quot;__main__&quot;:
+    print(&quot;Perceptron (no hidden layer)&quot;)
+    print(f&quot;  AND  target {y_and.astype(int)}  learned {perceptron(X, y_and)}&quot;)
+    print(f&quot;  XOR  target {y_xor.astype(int)}  learned {perceptron(X, y_xor)}&quot;)
+
+    print(&quot;\nMulti-layer network (4 hidden units) on XOR&quot;)
+    out, history = mlp(X, y_xor)
+    for epoch, loss in history:
+        print(f&quot;  epoch {epoch:&gt;5}: mean squared error {loss:.4f}&quot;)
+    print(f&quot;  outputs {np.round(out, 3)} -&gt; rounded {np.round(out).astype(int)}&quot;)
+
+    print(&quot;\nSame network, 10 different random starting weights&quot;)
+    solved = sum(np.array_equal(np.round(mlp(X, y_xor, seed=s)[0]), y_xor) for s in range(10))
+    print(f&quot;  solved XOR in {solved} of 10 runs&quot;)
+</code></pre></details><p class="download">Download: <a href="code/unit9/neural_xor.py">unit9/neural_xor.py</a></p>
+<div class="todo">
+<p>Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.</p>
+</div>
+
+<nav class="pager"><a class="prev" href="unit8.html"><small>Previous</small>Unit 8: Understanding NLP</a><a class="next" href="unit10.html"><small>Next</small>Unit 10: Deep Learning in Action</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>

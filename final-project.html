@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Final Project: Design and Implementation | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html" class="active" aria-current="page"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Project</p><h1>Final Project: Design and Implementation</h1></header>
+<div class="card">
+<p><strong>Academic Evidence Investigator.</strong> Group F (Ruwan Perera, Isaac Shalaan, Tugba Unal and Luis Torres Zambrano) designed the system in Unit 6. I implemented it individually for Unit 11. Code: <a href="https://github.com/ruwanperera1868/llmplanningagent">github.com/ruwanperera1868/llmplanningagent</a>.</p>
+</div>
+<h2 id="purpose">Purpose</h2>
+<p>Postgraduate researchers spend much of their time turning a question into searches, reading abstracts and judging evidence. The Investigator supports a Graduate School or Postgraduate Research Support Unit: it takes a research question such as “Does generative AI improve university students’ academic performance?”, decomposes it, retrieves scholarly papers, appraises them and produces a structured briefing. It supports rather than replaces the researcher, and frames research gaps only within the papers it retrieved.</p>
+<h2 id="design-phase-unit-6">Design phase (Unit 6)</h2>
+<p>The team design specified a supervisor-based multi-agent architecture built on LangGraph, with Qwen2.5-7B-Instruct as the model, Semantic Scholar and Crossref for retrieval, deterministic Python for cleaning and deduplication, JSON as the interface between stages, SQLite for persistence and a Flask interface.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Agent</th>
+<th>Responsibility in the design</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Planner / Supervisor</td>
+<td>Interprets the question, creates subtasks and search queries</td>
+</tr>
+<tr class="even">
+<td>Retrieval</td>
+<td>Queries Semantic Scholar and Crossref; Python removes duplicates and ranks</td>
+</tr>
+<tr class="odd">
+<td>Evidence Analysis / Critic</td>
+<td>Interprets findings, methods and limitations; returns control to the Planner if evidence is weak or unbalanced</td>
+</tr>
+<tr class="even">
+<td>Reporting</td>
+<td>Produces the structured briefing and stores it</td>
+</tr>
+</tbody>
+</table></div>
+<p>The design drew on ReAct for alternating reasoning and acting (Yao et al., 2023), Reflexion for the Critic-to-Planner feedback loop (Shinn et al., 2023), retrieval-augmented generation for grounding (Lewis et al., 2020) and a BDI mapping of shared state to beliefs and the Planner’s strategy to intentions (Archibald et al., 2024). LangGraph was preferred to CrewAI for its explicit control of state transitions and loops.</p>
+<p><strong>How the design evolved.</strong> An earlier concept used an LLM planner with three edge small-language-model agents. Isaac Shalaan’s proposal memo argued that edge inference added hardware complexity without removing the dependency on online academic databases, and proposed the evidence investigator instead. A draft dated 23 August 2026 had five agents with a separate Critic; the submitted version merged analysis and critique into one agent and added the BDI and CrewAI discussion.</p>
+<div class="todo">
+<p>Add screenshots of Figure 1 (architecture) and Figure 2 (activity flow) from the team report, and state which parts of the report you wrote or led.</p>
+</div>
+<h2 id="implementation-unit-11">Implementation (Unit 11)</h2>
+<p>The implementation wires the agents as a LangGraph <code>StateGraph</code> sharing one <code>ResearchState</code>, with a conditional edge from the Critic back to the Planner bounded by <code>MAX_CYCLES</code> (default 3). The guiding rule is that the LLM proposes and Python verifies.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Agent</th>
+<th>LLM does</th>
+<th>Python guarantees</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Planner</td>
+<td>Decomposes the question, writes queries</td>
+<td>Schema check, no repeated queries, keyword fallback</td>
+</tr>
+<tr class="even">
+<td>Retrieval</td>
+<td>Nothing</td>
+<td>Rate limits, retries only transient errors, logs outages</td>
+</tr>
+<tr class="odd">
+<td>Processing</td>
+<td>Nothing, by design</td>
+<td>Deduplication by DOI then title and first author, relevance ranking</td>
+</tr>
+<tr class="even">
+<td>Critic</td>
+<td>Appraises abstracts in one batched call</td>
+<td>Drops invented paper ids; the stop decision uses explicit thresholds</td>
+</tr>
+<tr class="odd">
+<td>Reporter</td>
+<td>Drafts the briefing</td>
+<td>Every finding must cite a retrieved paper</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="design-versus-implementation">Design versus implementation</h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Design commitment</th>
+<th>Implementation</th>
+<th>Kept or changed, and why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Four specialist agents under a supervisor</td>
+<td>Planner, Retrieval, Critic, Reporter plus a deterministic processing step</td>
+<td>Kept</td>
+</tr>
+<tr class="even">
+<td>Critic-to-Planner loop</td>
+<td>Conditional edge, bounded at 3 cycles</td>
+<td>Kept; stopping made a rule rather than the model’s self-assessment (Ji et al., 2023)</td>
+</tr>
+<tr class="odd">
+<td>Qwen2.5-7B via Hugging Face, configurable</td>
+<td>Any OpenAI-compatible endpoint; live demo ran Qwen locally under Ollama</td>
+<td>Changed: the hosted model was withdrawn and free credit ran out (R6)</td>
+</tr>
+<tr class="even">
+<td>HTTPX for API calls</td>
+<td>Requests only</td>
+<td>Changed: HTTPX added nothing for synchronous calls</td>
+</tr>
+<tr class="odd">
+<td>Findings linked to sources</td>
+<td>Citations to unretrieved papers stripped, uncited findings dropped</td>
+<td>Kept and strengthened (Huang et al., 2025)</td>
+</tr>
+<tr class="even">
+<td>JSON schema, audit trail, cycle limit, deduplication</td>
+<td>Pydantic schemas, SQLite audit trail, <code>MAX_CYCLES</code>, pandas deduplication</td>
+<td>Kept</td>
+</tr>
+<tr class="odd">
+<td>Not in the design</td>
+<td>Explicit offline mode, never a silent fallback</td>
+<td>Added for reproducible tests without misrepresenting evidence</td>
+</tr>
+<tr class="even">
+<td>Not in the design</td>
+<td>Deterministic fallback for every LLM step</td>
+<td>Added so rate limits lower quality, not availability</td>
+</tr>
+<tr class="odd">
+<td>PostgreSQL later</td>
+<td>Not done</td>
+<td>Future work</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="testing-and-what-it-changed">Testing and what it changed</h2>
+<p>83 automated tests pass with 96% line coverage and need no network, because the sources and the LLM are injected and tests use scripted fakes. Functional tests prove the re-plan loop, the cycle limit, a source outage, cross-source deduplication, removal of an invented citation, a total LLM outage still producing a briefing, and escaping of hostile HTML.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fix</th>
+<th>Problem found</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>R1</td>
+<td>“LLM-based” never matched “large language models”</td>
+<td>Synonym folding and stemming: 2 relevant papers in 3 cycles became 10 in 1</td>
+</tr>
+<tr class="even">
+<td>R2</td>
+<td>All-neutral evidence flagged as one-sided</td>
+<td>Only uniform supports or opposes counts as imbalance</td>
+</tr>
+<tr class="odd">
+<td>R3</td>
+<td>Unclosed SQLite connections</td>
+<td>Shared storage; the suite fails on any leak</td>
+</tr>
+<tr class="even">
+<td>R4</td>
+<td>HTTP 404 retried like a rate limit</td>
+<td>Retry only timeouts, 429 and 5xx</td>
+</tr>
+<tr class="odd">
+<td>R5</td>
+<td>References ordered by title</td>
+<td>Alphabetical by first author</td>
+</tr>
+<tr class="even">
+<td>R6</td>
+<td>Hosted Qwen withdrawn, credit exhausted</td>
+<td>Configurable endpoint; Qwen run locally under Ollama</td>
+</tr>
+<tr class="odd">
+<td>R7</td>
+<td>Semantic Scholar throttling (429)</td>
+<td>Longer back-off, Retry-After, optional API key</td>
+</tr>
+<tr class="even">
+<td>R8</td>
+<td>One bad appraisal discarded all 12</td>
+<td>Per-item validation; 11 of 12 kept</td>
+</tr>
+<tr class="odd">
+<td>R9</td>
+<td>Briefing JSON missing a comma</td>
+<td>Opt-in JSON mode constrains output</td>
+</tr>
+</tbody>
+</table></div>
+<p>R1 to R5 came from offline testing; R6 to R9 from live runs on 11 October 2026 (Windows 11, Ollama, <code>qwen2.5:7b</code>), each taking 5 to 10 minutes on a CPU.</p>
+<h2 id="limitations">Limitations</h2>
+<p>Without the LLM, appraisal falls back to a keyword heuristic; only abstracts are read; relevance is term overlap rather than semantic similarity; and the web app handles one user at a time. Next steps are embedding-based relevance, PostgreSQL and evaluation against a hand-labelled set of appraisals.</p>
+<div class="todo">
+<p>Add screenshots from the repository’s evidence folder (the briefing page, the audit trail and the live CLI run), your presentation slides or recording, and any tutor feedback.</p>
+</div>
+<div class="todo">
+<p>Write your critical evaluation here in your own words (it also forms part of the submitted document): what the design got right, where it was naive (for example, assuming a stable hosted model and free APIs), what testing revealed that design could not, and what you would do differently.</p>
+</div>
+
+<nav class="pager"><a class="prev" href="references.html"><small>Previous</small>References</a><a class="next" href="team.html"><small>Next</small>Team Work</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>

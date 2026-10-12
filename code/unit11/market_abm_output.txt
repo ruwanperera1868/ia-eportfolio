@@ -1,0 +1,7 @@
+traders                | volatility | clustering | largest deviation | time chartist-led
+fixed 30% chartists    |     0.0026 |       0.24 |                4% |                0%
+adaptive (switching)   |     0.0147 |       0.95 |              718% |               78%
+
+Means of 20 runs. Volatility = standard deviation of log returns per step.
+Clustering = correlation of the size of one return with the next.
+Largest deviation = furthest the price strayed from fundamental value.

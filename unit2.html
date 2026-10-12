@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 2: Introducing First Order Logic | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html" class="active" aria-current="page"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Unit 2</p><h1>Unit 2: Introducing First Order Logic</h1></header>
+<p>First order logic adds objects, relations and quantifiers to propositional logic, so that one sentence can describe every robot rather than each one separately (Russell and Norvig, 2021). Deliberative agents store beliefs as such sentences and decide by reasoning over them (Wooldridge, 2009).</p>
+<h2 id="artefact-model-checking-and-forward-chaining">Artefact: model checking and forward chaining</h2>
+<p>The script builds a small world of three robots and a dock, checks quantified sentences against it, then derives new facts by forward chaining.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th>Sentence</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>∀x Robot(x) → Charged(x)</td>
+<td>True</td>
+</tr>
+<tr class="even">
+<td>∃x Robot(x) ∧ ¬Charged(x)</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td>∀x Robot(x) ∧ Charged(x) (a common wrong translation)</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td>∀x Robot(x) → ∃y Trusts(x, y)</td>
+<td>True</td>
+</tr>
+<tr class="odd">
+<td>∃y ∀x Robot(x) → Trusts(x, y)</td>
+<td>False</td>
+</tr>
+</tbody>
+</table></div>
+<p>The wrong translation is false even though every robot is charged, because the dock is also in the domain. Swapping quantifier order turns a true sentence false because the trust relation is a cycle. Forward chaining derived CanDock(r1) and CanDock(r2), then CanReachDockVia(r3, r1), and stopped at a fixed point.</p>
+<details><summary>Show unit2/fol_demo.py</summary><pre><code class="language-python">&quot;&quot;&quot;Unit 2: first order logic over a small finite world.
+
+Part 1 checks quantified sentences against a model (a domain plus the
+facts that hold in it), using all() for &quot;for all&quot; and any() for &quot;exists&quot;.
+Part 2 derives new facts with forward chaining over definite clauses.
+&quot;&quot;&quot;
+
+# ---- The model: a domain of objects and the relations that hold ----
+domain = {&quot;r1&quot;, &quot;r2&quot;, &quot;r3&quot;, &quot;dock&quot;}
+Robot = {&quot;r1&quot;, &quot;r2&quot;, &quot;r3&quot;}
+Charged = {&quot;r1&quot;, &quot;r2&quot;, &quot;r3&quot;}
+CanReach = {(&quot;r1&quot;, &quot;dock&quot;), (&quot;r2&quot;, &quot;dock&quot;), (&quot;r3&quot;, &quot;r1&quot;)}
+Trusts = {(&quot;r1&quot;, &quot;r2&quot;), (&quot;r2&quot;, &quot;r3&quot;), (&quot;r3&quot;, &quot;r1&quot;)}
+
+
+def show(sentence, value):
+    print(f&quot;  {sentence:&lt;52} {value}&quot;)
+
+
+print(&quot;Part 1: model checking quantified sentences&quot;)
+
+# ∀x Robot(x) → Charged(x)   &quot;Every robot is charged&quot;
+show(&quot;∀x Robot(x) → Charged(x)&quot;,
+     all((x not in Robot) or (x in Charged) for x in domain))
+
+# ∃x Robot(x) ∧ ¬Charged(x)   &quot;Some robot is not charged&quot;
+show(&quot;∃x Robot(x) ∧ ¬Charged(x)&quot;,
+     any(x in Robot and x not in Charged for x in domain))
+
+# Common mistake: ∀x Robot(x) ∧ Charged(x) says everything is a charged robot
+show(&quot;∀x Robot(x) ∧ Charged(x)   (wrong translation)&quot;,
+     all(x in Robot and x in Charged for x in domain))
+
+# Quantifier order matters
+# ∀x ∃y Trusts(x, y)   &quot;Every robot trusts someone&quot;
+show(&quot;∀x Robot(x) → ∃y Trusts(x, y)&quot;,
+     all((x not in Robot) or any((x, y) in Trusts for y in domain)
+         for x in domain))
+
+# ∃y ∀x Trusts(x, y)   &quot;There is someone every robot trusts&quot;
+show(&quot;∃y ∀x Robot(x) → Trusts(x, y)&quot;,
+     any(all((x not in Robot) or (x, y) in Trusts for x in domain)
+         for y in domain))
+
+# ---- Part 2: forward chaining ----
+# Rules (each variable is universally quantified):
+#   Robot(x) ∧ Charged(x) ∧ CanReach(x, dock) → CanDock(x)
+#   CanReach(x, y) ∧ CanDock(y) → CanReachDockVia(x, y)
+print(&quot;\nPart 2: forward chaining&quot;)
+facts = ({(&quot;Robot&quot;, x) for x in Robot}
+         | {(&quot;Charged&quot;, x) for x in Charged}
+         | {(&quot;CanReach&quot;, x, y) for x, y in CanReach})
+
+changed = True
+round_no = 0
+while changed:
+    changed = False
+    round_no += 1
+    new = set()
+    for (_, x) in [f for f in facts if f[0] == &quot;Robot&quot;]:
+        if (&quot;Charged&quot;, x) in facts and (&quot;CanReach&quot;, x, &quot;dock&quot;) in facts:
+            new.add((&quot;CanDock&quot;, x))
+    for f in [f for f in facts if f[0] == &quot;CanReach&quot;]:
+        _, x, y = f
+        if (&quot;CanDock&quot;, y) in facts:
+            new.add((&quot;CanReachDockVia&quot;, x, y))
+    new -= facts
+    if new:
+        for f in sorted(new):
+            print(f&quot;  round {round_no}: derived {f[0]}({&#x27;, &#x27;.join(f[1:])})&quot;)
+        facts |= new
+        changed = True
+print(f&quot;  fixed point reached after {round_no} rounds&quot;)
+</code></pre></details><p class="download">Download: <a href="code/unit2/fol_demo.py">unit2/fol_demo.py</a></p>
+<div class="todo">
+<p>Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.</p>
+</div>
+
+<nav class="pager"><a class="prev" href="unit1.html"><small>Previous</small>Unit 1: Introduction to Agent-Based Computing</a><a class="next" href="unit3.html"><small>Next</small>Unit 3: Agent Architectures</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 11: Intelligent Agents in Action | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html" class="active" aria-current="page"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Unit 11</p><h1>Unit 11: Intelligent Agents in Action</h1></header>
+<p>Industry 4.0 describes cyber-physical production in which connected machines make decentralised decisions (Kagermann, Wahlster and Helbig, 2013); multi-agent control lets a shop floor re-route work when a machine fails (Leitão, 2009). In finance, agent-based models simulate markets as interacting traders (Farmer and Foley, 2009), and the 2010 Flash Crash showed how interacting automated traders can amplify a shock (Kirilenko et al., 2017).</p>
+<h2 id="artefact-an-agent-based-market">Artefact: an agent-based market</h2>
+<p>Two hundred traders follow either a fundamentalist rule (trade towards a value of 100) or a chartist rule (follow the trend). In the adaptive version, traders switch to whichever strategy has recently earned more.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Traders</th>
+<th>Volatility per step</th>
+<th>Clustering</th>
+<th>Largest deviation from value</th>
+<th>Time chartist-led</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fixed, 30% chartists</td>
+<td>0.0026</td>
+<td>0.24</td>
+<td>4%</td>
+<td>0%</td>
+</tr>
+<tr class="even">
+<td>Adaptive, switching</td>
+<td>0.0147</td>
+<td>0.95</td>
+<td>718%</td>
+<td>78%</td>
+</tr>
+</tbody>
+</table></div>
+<p>Copying the winning strategy recruited more trend-followers, which strengthened the trend: volatility rose about sixfold and prices ran away, with no outside shock. The model is a toy, as nothing brings prices back once chartists dominate, but it shows why exchanges use circuit breakers as a market-wide kill switch.</p>
+<details><summary>Show unit11/market_abm.py</summary><pre><code class="language-python">&quot;&quot;&quot;Unit 11: an agent-based model of a financial market.
+
+Traders set the price of one asset using one of two strategies:
+  - fundamentalist: buy when the price is below its fundamental value and
+    sell when it is above (pulls the price back);
+  - chartist: follow the recent trend (pushes the price further).
+In the adaptive version each trader may switch to whichever strategy has
+earned more recently, so traders herd. The comparison shows a core idea
+of agent-based finance: market-wide booms and busts can emerge from
+traders copying whatever strategy is working, with no outside shock
+(Lux and Marchesi, 1999; Brock and Hommes, 1998). The model is a toy:
+once trend-followers take over, nothing stops the bubble.
+&quot;&quot;&quot;
+import numpy as np
+
+FUNDAMENTAL, STEPS, N = 100.0, 3000, 200
+
+
+def simulate(adaptive, seed=0, intensity=10_000.0):
+    rng = np.random.default_rng(seed)
+    is_chartist = rng.random(N) &lt; 0.3
+    prices = [FUNDAMENTAL, FUNDAMENTAL]
+    profit = np.zeros(2)                     # smoothed profit: [fund, chart]
+    shares = []
+    for _ in range(STEPS):
+        p, p_prev = prices[-1], prices[-2]
+        d_fund = 0.05 * (np.log(FUNDAMENTAL) - np.log(p))
+        d_chart = 0.02 * np.tanh(100 * (np.log(p) - np.log(p_prev)))   # bounded trend-following
+        demand = np.where(is_chartist, d_chart, d_fund) + rng.normal(0, 0.01, N)
+        new_p = p * np.exp(demand.mean() + rng.normal(0, 0.002))
+        r = np.log(new_p) - np.log(p)
+        profit = 0.9 * profit + 0.1 * np.array([d_fund * r, d_chart * r])
+        if adaptive:
+            # logit switching: chance of being a chartist rises with its edge
+            edge = np.clip(intensity * (profit[1] - profit[0]), -50, 50)
+            p_chart = 1 / (1 + np.exp(-edge))
+            p_chart = min(max(p_chart, 0.05), 0.95)
+            switch = rng.random(N) &lt; 0.05    # 5% of traders reconsider each step
+            is_chartist[switch] = rng.random(switch.sum()) &lt; p_chart
+        shares.append(is_chartist.mean())
+        prices.append(new_p)
+    prices, shares = np.array(prices[502:]), np.array(shares[500:])   # drop warm-up
+    returns = np.diff(np.log(prices))
+    a = np.abs(returns)
+    clustering = np.corrcoef(a[:-1], a[1:])[0, 1]
+    deviation = np.max(np.abs(prices - FUNDAMENTAL)) / FUNDAMENTAL
+    chartist_led = np.mean(shares &gt; 0.5)
+    return returns.std(), clustering, deviation, chartist_led
+
+
+if __name__ == &quot;__main__&quot;:
+    print(f&quot;{&#x27;traders&#x27;:&lt;22} | {&#x27;volatility&#x27;:&gt;10} | {&#x27;clustering&#x27;:&gt;10} | &quot;
+          f&quot;{&#x27;largest deviation&#x27;:&gt;17} | time chartist-led&quot;)
+    for label, adaptive in ((&quot;fixed 30% chartists&quot;, False), (&quot;adaptive (switching)&quot;, True)):
+        runs = [simulate(adaptive, seed) for seed in range(20)]
+        vol, clus, dev, led = (np.mean(x) for x in zip(*runs))
+        print(f&quot;{label:&lt;22} | {vol:&gt;10.4f} | {clus:&gt;10.2f} | {dev:&gt;17.0%} | {led:&gt;17.0%}&quot;)
+    print(&quot;\nMeans of 20 runs. Volatility = standard deviation of log returns per step.&quot;)
+    print(&quot;Clustering = correlation of the size of one return with the next.&quot;)
+    print(&quot;Largest deviation = furthest the price strayed from fundamental value.&quot;)
+</code></pre></details><p class="download">Download: <a href="code/unit11/market_abm.py">unit11/market_abm.py</a></p>
+<h2 id="individual-project-presentation">Individual project presentation</h2>
+<p>This unit’s assessment presented the individual implementation of the Academic Evidence Investigator. See <a href="final-project.html">Final Project</a>.</p>
+<div class="todo">
+<p>Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.</p>
+</div>
+
+<nav class="pager"><a class="prev" href="unit10.html"><small>Previous</small>Unit 10: Deep Learning in Action</a><a class="next" href="unit12.html"><small>Next</small>Unit 12: The Future of Intelligent Agents</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>

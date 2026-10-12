@@ -1,0 +1,9 @@
+Corridor of 5 cells, 200 trials
+  Simple reflex        mean steps to clean:   17.7  worst: 95
+  Model-based reflex   mean steps to clean:    6.3  worst: 12
+Corridor of 10 cells, 200 trials
+  Simple reflex        mean steps to clean:   86.9  worst: 370
+  Model-based reflex   mean steps to clean:   15.4  worst: 25
+Corridor of 20 cells, 200 trials
+  Simple reflex        mean steps to clean:  390.5  worst: 1000
+  Model-based reflex   mean steps to clean:   34.9  worst: 51

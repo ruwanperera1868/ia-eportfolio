@@ -1,0 +1,14 @@
+Perceptron (no hidden layer)
+  AND  target [0 0 0 1]  learned [0 0 0 1]
+  XOR  target [0 1 1 0]  learned [1 1 0 0]
+
+Multi-layer network (4 hidden units) on XOR
+  epoch     0: mean squared error 0.3430
+  epoch   100: mean squared error 0.2502
+  epoch  1000: mean squared error 0.2188
+  epoch  5000: mean squared error 0.0022
+  epoch  9999: mean squared error 0.0008
+  outputs [0.011 0.971 0.971 0.037] -> rounded [0 1 1 0]
+
+Same network, 10 different random starting weights
+  solved XOR in 10 of 10 runs

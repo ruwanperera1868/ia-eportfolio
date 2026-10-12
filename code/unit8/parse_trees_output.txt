@@ -1,0 +1,60 @@
+
+'the government raised interest rates': 1 parse(s)
+
+Parse 1: (S (NP (Det the) (N government)) (VP (V raised) (NP (N interest) (N rates))))
+                     S                      
+     ┌───────────────┴───────┐               
+     │                       VP             
+     │               ┌───────┴──────┐        
+     NP              │              NP      
+ ┌───┴──────┐        │       ┌──────┴────┐   
+Det         N        V       N           N  
+ │          │        │       │           │   
+the     government raised interest     rates
+
+
+'the internet gives everyone a voice': 1 parse(s)
+
+Parse 1: (S (NP (Det the) (N internet)) (VP (V gives) (NP (Pro everyone)) (NP (Det a) (N voice))))
+                   S                         
+     ┌─────────────┴──────┐                   
+     │                    VP                 
+     │             ┌──────┼──────────┐        
+     NP            │      NP         NP      
+ ┌───┴─────┐       │      │      ┌───┴────┐   
+Det        N       V     Pro    Det       N  
+ │         │       │      │      │        │   
+the     internet gives everyone  a      voice
+
+
+'the man saw the dog with the telescope': 2 parse(s)
+
+Parse 1: (S (NP (Det the) (N man)) (VP (V saw) (NP (Det the) (N dog)) (PP (P with) (NP (Det the) (N telescope)))))
+                 S                                
+     ┌───────────┴───────┐                         
+     │                   VP                       
+     │       ┌───────┬───┴────────┐                
+     │       │       │            PP              
+     │       │       │       ┌────┴───┐            
+     NP      │       NP      │        NP          
+ ┌───┴───┐   │   ┌───┴───┐   │    ┌───┴──────┐     
+Det      N   V  Det      N   P   Det         N    
+ │       │   │   │       │   │    │          │     
+the     man saw the     dog with the     telescope
+
+
+Parse 2: (S (NP (Det the) (N man)) (VP (V saw) (NP (Det the) (N dog) (PP (P with) (NP (Det the) (N telescope))))))
+                 S                            
+     ┌───────────┴───┐                         
+     │               VP                       
+     │       ┌───────┴───┐                     
+     │       │           NP                   
+     │       │   ┌───┬───┴────┐                
+     │       │   │   │        PP              
+     │       │   │   │   ┌────┴───┐            
+     NP      │   │   │   │        NP          
+ ┌───┴───┐   │   │   │   │    ┌───┴──────┐     
+Det      N   V  Det  N   P   Det         N    
+ │       │   │   │   │   │    │          │     
+the     man saw the dog with the     telescope
+

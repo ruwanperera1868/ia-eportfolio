@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 4: Hybrid Agent Architectures | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html" class="active" aria-current="page"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Unit 4</p><h1>Unit 4: Hybrid Agent Architectures</h1></header>
+<p>Hybrid architectures layer a reactive component for urgent events beneath a deliberative one for planning. Layers can be horizontal, each proposing an action to a mediator (Ferguson, 1992), or vertical, with control passing through the layers (Müller, 1996). Real deployments include Stanley, the car that won the 2005 DARPA Grand Challenge (Thrun et al., 2006), and NASA’s Remote Agent (Muscettola et al., 1998).</p>
+<h2 id="artefact-adding-a-safety-layer">Artefact: adding a safety layer</h2>
+<p>The Unit 3 world gains four moving hazards; a collision costs 5 battery. The hybrid agent keeps the BDI layer for deciding what to do and adds a reactive layer that can veto any move onto or next to a hazard.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th>Agent</th>
+<th>Packages</th>
+<th>Collisions per run</th>
+<th>Ran out of battery (of 200)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>BDI only</td>
+<td>12.3</td>
+<td>4.2</td>
+<td>180</td>
+</tr>
+<tr class="even">
+<td>Hybrid, original reserve of 1</td>
+<td>17.4</td>
+<td>0.1</td>
+<td>146</td>
+</tr>
+<tr class="odd">
+<td>Hybrid, reserve of 6</td>
+<td>21.1</td>
+<td>0.1</td>
+<td>53</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th>Battery reserve</th>
+<th>1</th>
+<th>4</th>
+<th>6</th>
+<th>10</th>
+<th>15</th>
+<th>20</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Packages, mean</td>
+<td>17.4</td>
+<td>21.3</td>
+<td>21.1</td>
+<td>17.5</td>
+<td>9.7</td>
+<td>4.9</td>
+</tr>
+<tr class="even">
+<td>Ran out of battery</td>
+<td>146</td>
+<td>82</td>
+<td>53</td>
+<td>27</td>
+<td>13</td>
+<td>10</td>
+</tr>
+</tbody>
+</table></div>
+<p>The safety layer worked, but its detours used battery the planner had not budgeted for: two individually correct layers with clashing assumptions. Raising the reserve traded output for safety, and no setting reached zero failures because hazards could block the way home.</p>
+<details><summary>Show unit4/hybrid.py</summary><pre><code class="language-python">&quot;&quot;&quot;Unit 4: adding a reactive safety layer to the Unit 3 BDI agent.
+
+Same delivery world as Unit 3, plus four hazards (e.g. people or forklifts)
+that move one random step each turn. Hitting a hazard counts as a collision
+and drains 5 battery. The BDI agent plans as before and ignores hazards.
+In the hybrid agent the BDI layer proposes a move and a reactive layer can
+override it, vetoing any move onto or next to a hazard and picking the
+safest alternative instead. Detours cost battery the plan did not
+expect, so the hybrid keeps a larger battery reserve; HybridNoReserve shows
+what happens when the layers are combined without that adjustment.
+&quot;&quot;&quot;
+import os
+import random
+import statistics
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), &quot;..&quot;, &quot;unit3&quot;))
+from architectures import (BDIAgent, CHARGER, MAX_BATTERY, SIZE, World,  # noqa: E402
+                           dist)
+
+N_HAZARDS, COLLISION_COST = 4, 5
+
+
+def neighbours(pos):
+    x, y = pos
+    return [(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))
+            if 0 &lt;= x + dx &lt; SIZE and 0 &lt;= y + dy &lt; SIZE]
+
+
+class HybridAgent(BDIAgent):
+    &quot;&quot;&quot;Deliberative layer: inherited BDI reasoning (what to do).
+    Reactive layer: hazard avoidance that can override a single move.&quot;&quot;&quot;
+
+    RESERVE = 6
+
+    def act(self, pos, battery, sensed, hazards=()):
+        planned = super().act(pos, battery, sensed)
+
+        def danger(cell):
+            return sum(1 for h in hazards if dist(cell, h) &lt;= 1)
+
+        if danger(planned) == 0:
+            return planned
+        # reactive override: safest cell, ties broken by progress to the plan
+        it = self.intention
+        goal = CHARGER if it[0] == &quot;recharge&quot; else it[1]
+        return min(neighbours(pos) + [pos],
+                   key=lambda c: (c in hazards, danger(c), dist(c, goal)))
+
+
+class HybridNoReserve(HybridAgent):
+    RESERVE = 1
+
+
+def run(agent_cls, seed, steps=400):
+    rng = random.Random(seed)
+    world, agent = World(rng), agent_cls(random.Random(seed + 1))
+    hazards = [(rng.randrange(2, SIZE), rng.randrange(2, SIZE)) for _ in range(N_HAZARDS)]
+    pos, battery, collected, collisions = CHARGER, MAX_BATTERY, 0, 0
+    for _ in range(steps):
+        if battery &lt;= 0:
+            return collected, collisions, True
+        if isinstance(agent, HybridAgent):
+            new = agent.act(pos, battery, world.sensed(pos), hazards)
+        else:
+            new = agent.act(pos, battery, world.sensed(pos))
+        if new != pos:
+            battery -= 1
+        pos = new
+        hazards = [rng.choice(neighbours(h)) for h in hazards]
+        if pos in hazards:
+            collisions += 1
+            battery -= COLLISION_COST
+        if pos == CHARGER:
+            battery = MAX_BATTERY
+        if world.collect(pos):
+            collected += 1
+    return collected, collisions, False
+
+
+if __name__ == &quot;__main__&quot;:
+    print(f&quot;400 steps per run, 200 runs per agent, {N_HAZARDS} moving hazards&quot;)
+    for cls in (BDIAgent, HybridNoReserve, HybridAgent):
+        results = [run(cls, s) for s in range(200)]
+        got = [r[0] for r in results]
+        hits = [r[1] for r in results]
+        dead = sum(r[2] for r in results)
+        print(f&quot;  {cls.__name__:&lt;15} packages: mean {statistics.mean(got):5.1f}; &quot;
+              f&quot;collisions: mean {statistics.mean(hits):4.1f}, max {max(hits):2d}; &quot;
+              f&quot;ran out of battery: {dead}/200&quot;)
+
+    print(&quot;\nHybrid agent: effect of the battery reserve&quot;)
+    for reserve in (1, 4, 6, 10, 15, 20):
+        cls = type(f&quot;Hybrid{reserve}&quot;, (HybridAgent,), {&quot;RESERVE&quot;: reserve})
+        results = [run(cls, s) for s in range(200)]
+        print(f&quot;  reserve {reserve:2d}: packages mean {statistics.mean(r[0] for r in results):5.1f}; &quot;
+              f&quot;ran out of battery: {sum(r[2] for r in results)}/200&quot;)
+</code></pre></details><p class="download">Download: <a href="code/unit4/hybrid.py">unit4/hybrid.py</a></p>
+<div class="todo">
+<p>Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.</p>
+</div>
+
+<nav class="pager"><a class="prev" href="unit3.html"><small>Previous</small>Unit 3: Agent Architectures</a><a class="next" href="unit5.html"><small>Next</small>Unit 5: Agent Communication</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+Part 1: model checking quantified sentences
+  ∀x Robot(x) → Charged(x)                             True
+  ∃x Robot(x) ∧ ¬Charged(x)                            False
+  ∀x Robot(x) ∧ Charged(x)   (wrong translation)       False
+  ∀x Robot(x) → ∃y Trusts(x, y)                        True
+  ∃y ∀x Robot(x) → Trusts(x, y)                        False
+
+Part 2: forward chaining
+  round 1: derived CanDock(r1)
+  round 1: derived CanDock(r2)
+  round 2: derived CanReachDockVia(r3, r1)
+  fixed point reached after 3 rounds

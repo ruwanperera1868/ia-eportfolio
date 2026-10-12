@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 6: Working Together | Intelligent Agents E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html" class="active" aria-current="page"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+</aside>
+<main class="content">
+<header class="page-head"><p class="eyebrow">Unit 6</p><h1>Unit 6: Working Together</h1></header>
+<h2 id="creating-agent-dialogues">Creating agent dialogues</h2>
+<p>A KQML and KIF dialogue between Alice, an agent procuring stock, and Bob, an agent controlling a warehouse. Both use KIF as the content language and a shared warehouse-stock ontology. Stock figures are illustrative.</p>
+<pre><code>(ask-all  :sender alice :receiver bob :reply-with q1 :language KIF :ontology warehouse-stock
+          :content (and (television ?m) (= (screen-size ?m) 50) (&gt; (stock-level ?m) 0)))
+
+(tell     :sender bob :receiver alice :in-reply-to q1 :language KIF :ontology warehouse-stock
+          :content (and (television tv-50a) (= (screen-size tv-50a) 50) (= (stock-level tv-50a) 34)
+                        (television tv-50b) (= (screen-size tv-50b) 50) (= (stock-level tv-50b) 6)))
+
+(ask-one  :sender alice :receiver bob :reply-with q2 :language KIF :ontology warehouse-stock
+          :content (= (hdmi-ports tv-50a) ?p))
+
+(tell     :sender bob :receiver alice :in-reply-to q2 :language KIF :ontology warehouse-stock
+          :content (= (hdmi-ports tv-50a) 4))
+
+(ask-one  :sender alice :receiver bob :reply-with q3 :language KIF :ontology warehouse-stock
+          :content (= (refresh-rate tv-50b) ?r))
+
+(sorry    :sender bob :receiver alice :in-reply-to q3)
+
+(achieve  :sender alice :receiver bob :reply-with q4 :language KIF :ontology warehouse-stock
+          :content (reserved tv-50a 20 alice))
+
+(tell     :sender bob :receiver alice :in-reply-to q4 :language KIF :ontology warehouse-stock
+          :content (and (reserved tv-50a 20 alice) (= (stock-level tv-50a) 14)))</code></pre>
+<p>ask-all requests every binding of ?m; in-reply-to ties each answer to its question; sorry means Bob understood but has no answer, unlike error; achieve asks Bob to change the world rather than report on it. The exchange works only because both agents share the ontology, and KQML itself does not oblige Bob to answer or comply.</p>
+<h2 id="development-team-project">Development Team Project</h2>
+<p>Group F submitted the design proposal for the Academic Evidence Investigator this unit. See <a href="final-project.html">Final Project</a> and <a href="team.html">Team Work</a>.</p>
+<div class="todo">
+<p>Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.</p>
+</div>
+
+<nav class="pager"><a class="prev" href="unit5.html"><small>Previous</small>Unit 5: Agent Communication</a><a class="next" href="unit7.html"><small>Next</small>Unit 7: Natural Language Processing</a></nav>
+<footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>
+<button class="theme-btn" onclick="var d=document.documentElement,n=(d.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark'?'light':'dark';d.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}">Toggle theme</button></footer>
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll()</script>
+</body>
+</html>

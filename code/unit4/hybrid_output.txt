@@ -1,0 +1,12 @@
+400 steps per run, 200 runs per agent, 4 moving hazards
+  BDIAgent        packages: mean  12.3; collisions: mean  4.2, max 23; ran out of battery: 180/200
+  HybridNoReserve packages: mean  17.4; collisions: mean  0.1, max  4; ran out of battery: 146/200
+  HybridAgent     packages: mean  21.1; collisions: mean  0.1, max  4; ran out of battery: 53/200
+
+Hybrid agent: effect of the battery reserve
+  reserve  1: packages mean  17.4; ran out of battery: 146/200
+  reserve  4: packages mean  21.3; ran out of battery: 82/200
+  reserve  6: packages mean  21.1; ran out of battery: 53/200
+  reserve 10: packages mean  17.5; ran out of battery: 27/200
+  reserve 15: packages mean   9.7; ran out of battery: 13/200
+  reserve 20: packages mean   4.9; ran out of battery: 10/200

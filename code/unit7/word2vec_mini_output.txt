@@ -1,0 +1,15 @@
+epoch 1: mean loss 2.423
+epoch 2: mean loss 2.434
+epoch 3: mean loss 2.439
+epoch 4: mean loss 2.457
+epoch 5: mean loss 2.440
+
+Nearest neighbours by cosine similarity:
+  robot   [('drone', 0.98), ('rover', 0.98), ('base', 0.68)]
+  cat     [('horse', 0.99), ('dog', 0.98), ('meat', 0.73)]
+  fish    [('meat', 0.99), ('grain', 0.97), ('dog', 0.77)]
+  dock    [('base', 0.99), ('station', 0.99), ('rover', 0.7)]
+  moves   [('charges', 0.66), ('dock', 0.64), ('base', 0.62)]
+
+Mean similarity within a hidden group: 0.98
+Mean similarity across groups:         0.45

@@ -1,0 +1,20 @@
+1. Direct query answered from beliefs
+  buyer -> (ask-one :sender buyer :receiver warehouse :reply-with q1 :language KIF :ontology warehouse-v1 :content (stock Laptop))
+  warehouse -> (tell :sender warehouse :receiver buyer :in-reply-to q1 :language KIF :ontology warehouse-v1 :content (= (stock Laptop) 12))
+
+2. Query about a superclass, answered by reasoning over the ontology
+  buyer -> (ask-one :sender buyer :receiver warehouse :reply-with q2 :language KIF :ontology warehouse-v1 :content (stock Electronics))
+  warehouse -> (tell :sender warehouse :receiver buyer :in-reply-to q2 :language KIF :ontology warehouse-v1 :content (= (stock Electronics) 12))
+
+3. A term outside the shared ontology
+  buyer -> (ask-one :sender buyer :receiver warehouse :reply-with q3 :language KIF :ontology warehouse-v1 :content (stock Tablet))
+  warehouse -> (sorry :sender warehouse :receiver buyer :in-reply-to q3 :comment "Tablet or stock not in ontology")
+
+4. A request to act (achieve) rather than to inform
+  buyer -> (achieve :sender buyer :receiver warehouse :reply-with q4 :language KIF :ontology warehouse-v1 :content (stock Phone))
+  warehouse -> (tell :sender warehouse :receiver buyer :in-reply-to q4 :language KIF :ontology warehouse-v1 :content (= (stock Phone) 10))
+
+5. Same words, different ontology: communication fails
+  buyer2 -> (ask-one :sender buyer2 :receiver warehouse :reply-with q1 :language KIF :ontology retail-v2 :content (stock Laptop))
+  warehouse -> (sorry :sender warehouse :receiver buyer2 :in-reply-to q1 :comment "unknown ontology")
+
