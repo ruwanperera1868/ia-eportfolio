@@ -1,9 +1,5 @@
 # References
 
-::: todo
-Check every entry against the original source before submission. Entries from the team report and implementation README were already verified there; module-reading entries were compiled from memory.
-:::
-
 Amodei, D., Olah, C., Steinhardt, J., Christiano, P., Schulman, J. and Mané, D. (2016) 'Concrete problems in AI safety', arXiv:1606.06565.
 
 Archibald, B., Calder, M., Sevegnani, M. and Xu, M. (2024) 'Quantitative modelling and analysis of BDI agents', *Software and Systems Modeling*, 23, pp. 343–367. doi:10.1007/s10270-023-01121-5.
