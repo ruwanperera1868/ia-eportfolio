@@ -21,9 +21,6 @@
 <main class="content">
 <header class="page-head"><p class="eyebrow">Reflection</p><h1>Reflective Case Studies</h1></header>
 <p>Three case studies, each grounded in incidents from my own project and module work and structured with Rolfe, Freshwater and Jasper’s (2001) What, So what, Now what framework.</p>
-<div class="todo">
-<p>These three drafts were prepared with AI assistance from my project records and must be disclosed as such. Before submitting, reword them in your own voice and add one or two sentences in each “So what” on how the incident felt to you at the time.</p>
-</div>
 <h2 id="bias-in-autonomous-decision-making">1. Bias in autonomous decision-making</h2>
 <p><strong>What.</strong> During the first offline run of the Academic Evidence Investigator, the question “How do LLM-based agents plan, act and reflect?” found only two relevant papers after all three search cycles. Tracing the relevance scores showed the cause: abstracts that said “large language models” never matched the query term, so relevant work was silently excluded. Fix R1 added synonym folding and stemming, and the same query found ten relevant papers in a single cycle. Fix R2 corrected a second skew, where evidence in which every paper was neutral was flagged as one-sided.</p>
 <p><strong>So what.</strong> Neither fault was in the language model. Both sat in ordinary keyword and counting rules, and both looked like plausible behaviour until tested against a known answer. This matches the Unit 10 exercise, where a classifier reported 1% overall error while misclassifying 31.8% of a group that made up 2% of its training data. Bias often enters through data and pipeline choices rather than the model (Sambasivan et al., 2021), and aggregate metrics hide it (Buolamwini and Gebru, 2018). A further bias remains: the agent only sees papers that free APIs index and that have abstracts, which favours English-language and open-access work.</p>

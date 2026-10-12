@@ -14,7 +14,3 @@ Both agents collect packages on a 10 by 10 grid with a charger and a battery, se
 Tracing a zero-package reactive run showed the survive layer kept pulling the agent back to the charger, so it never reached packages on the far side. It was safe but ineffective. The BDI agent's memory and commitment let it plan whole trips, at the cost of more code and of acting on beliefs that may be stale.
 
 {{code:unit3/architectures.py}}
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::

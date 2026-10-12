@@ -28,7 +28,3 @@ Grammar alone cannot choose between them; a statistical parser picks the likelie
 {{code:unit8/parse_trees.py}}
 
 {{code:unit8/parse_trees_output.txt}}
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::

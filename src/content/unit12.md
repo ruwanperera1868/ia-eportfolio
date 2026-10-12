@@ -9,7 +9,3 @@
 | Safety and governance | Calls for oversight of advanced AI (Bengio et al., 2024); EU AI Act obligations phasing in | Enforcement, international coordination |
 
 The Academic Evidence Investigator sits in the first of these: an LLM-based agent whose trustworthiness came less from the model than from the conventional software around it, such as validation, bounded loops, grounding and audit trails.
-
-::: todo
-Add your view for the seminar: which direction matters most for your own work, for example the agentic, explainable underwriting workbench in your Research Methods proposal, and why.
-:::

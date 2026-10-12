@@ -18,7 +18,3 @@ Copying the winning strategy recruited more trend-followers, which strengthened 
 ## Individual project presentation
 
 This unit's assessment presented the individual implementation of the Academic Evidence Investigator. See [Final Project](final-project.html).
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::

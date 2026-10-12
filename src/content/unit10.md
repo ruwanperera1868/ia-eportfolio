@@ -24,7 +24,3 @@ In both, the model mirrors its data. Practitioners undervalue data work, which c
 At 2%, the model looks excellent overall while failing nearly a third of group B; only disaggregated evaluation reveals it. Balancing the data evens the errors but raises overall error, because one simple model cannot fit both groups: fairness needed a better model, not just more balanced data.
 
 {{code:unit10/data_imbalance.py}}
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::

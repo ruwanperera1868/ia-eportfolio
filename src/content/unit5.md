@@ -17,7 +17,3 @@ A buyer agent sends KQML messages to a warehouse agent, which checks the ontolog
 The warehouse here always complies; a truly autonomous agent could refuse, which is the key difference between a message and a method call.
 
 {{code:unit5/kqml_agents.py}}
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::

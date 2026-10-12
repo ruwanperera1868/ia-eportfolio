@@ -17,7 +17,3 @@ The script builds a small world of three robots and a dock, checks quantified se
 The wrong translation is false even though every robot is charged, because the dock is also in the domain. Swapping quantifier order turns a true sentence false because the trust relation is a cycle. Forward chaining derived CanDock(r1) and CanDock(r2), then CanReachDockVia(r3, r1), and stopped at a fixed point.
 
 {{code:unit2/fol_demo.py}}
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::

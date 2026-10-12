@@ -17,7 +17,3 @@ A single perceptron (Rosenblatt, 1958) can only draw one straight line, so it ca
 The network solved XOR from all 10 random starting points tried, after a long plateau where it appeared to learn nothing. Its final weights give the right answers but explain nothing about how.
 
 {{code:unit9/neural_xor.py}}
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::

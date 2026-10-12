@@ -19,7 +19,3 @@ A little internal state turned a random walk into a near-linear sweep. The cost 
 ## Discussion 1 preparation
 
 The additional task asked how LLM-powered agents are designed for research and information gathering. The key ideas were planning by task decomposition, tool use, memory and self-critique (Weng, 2023; Wang et al., 2024), with ReAct interleaving reasoning and actions (Yao et al., 2023) and Reflexion learning from failed attempts (Shinn et al., 2023). These same ideas later shaped the team's Planner and Critic design.
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::

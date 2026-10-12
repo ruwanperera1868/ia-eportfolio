@@ -15,7 +15,3 @@ Group F worked across different countries and schedules to produce the Unit 6 de
 ## Peer evaluation
 
 The peer evaluation submitted at the end of the project described the team as well organised and constructively challenging, with one discussion that drifted off topic brought back on track. Individual scores for teammates are not published here. My self-evaluation totalled 29 of 35, noting one missed meeting.
-
-::: todo
-Add your own contribution: which sections, diagrams or decisions you wrote or led in the team report, how you responded to Isaac's challenge, and how meetings were run. Add legible screenshots of meeting notes, chat or task boards; screenshots do not count toward the word limit.
-:::

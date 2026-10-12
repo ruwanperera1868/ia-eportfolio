@@ -16,7 +16,3 @@ A skip-gram model with negative sampling, written in NumPy, trained on 3,000 tem
 Words in the same hidden group averaged 0.98 similarity against 0.45 across groups. The model also learned which groups co-occur (robot near base, cat near meat), the same mechanism by which real embeddings absorb stereotypes.
 
 {{code:unit7/word2vec_mini.py}}
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::

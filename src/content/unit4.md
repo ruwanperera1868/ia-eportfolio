@@ -20,7 +20,3 @@ The Unit 3 world gains four moving hazards; a collision costs 5 battery. The hyb
 The safety layer worked, but its detours used battery the planner had not budgeted for: two individually correct layers with clashing assumptions. Raising the reserve traded output for safety, and no setting reached zero failures because hazards could block the way home.
 
 {{code:unit4/hybrid.py}}
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::

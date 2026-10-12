@@ -23,10 +23,6 @@ The design drew on ReAct for alternating reasoning and acting (Yao et al., 2023)
 
 **How the design evolved.** An earlier concept used an LLM planner with three edge small-language-model agents. Isaac Shalaan's proposal memo argued that edge inference added hardware complexity without removing the dependency on online academic databases, and proposed the evidence investigator instead. A draft dated 23 August 2026 had five agents with a separate Critic; the submitted version merged analysis and critique into one agent and added the BDI and CrewAI discussion.
 
-::: todo
-Add screenshots of Figure 1 (architecture) and Figure 2 (activity flow) from the team report, and state which parts of the report you wrote or led.
-:::
-
 ## Implementation (Unit 11)
 
 The implementation wires the agents as a LangGraph `StateGraph` sharing one `ResearchState`, with a conditional edge from the Critic back to the Planner bounded by `MAX_CYCLES` (default 3). The guiding rule is that the LLM proposes and Python verifies.
@@ -76,10 +72,6 @@ R1 to R5 came from offline testing; R6 to R9 from live runs on 11 October 2026 (
 Without the LLM, appraisal falls back to a keyword heuristic; only abstracts are read; relevance is term overlap rather than semantic similarity; and the web app handles one user at a time. Next steps are embedding-based relevance, PostgreSQL and evaluation against a hand-labelled set of appraisals.
 
 Two evaluation gaps remain. First, the Critic and the Reporter's grounding check run on the same model that produced the appraisals, so agreement between them is not independent confirmation; a hand-labelled set and blinded comparison against a fixed retrieve-and-summarise baseline would be. Second, removing ungrounded citations raises the share of supported claims, but a briefing that drops every hard claim would score perfectly while saying little, so supported-claim precision should always be reported alongside how many claims survived.
-
-::: todo
-Add screenshots from the repository's evidence folder (the briefing page, the audit trail and the live CLI run), your presentation slides or recording, and any tutor feedback.
-:::
 
 ## Critical evaluation
 

@@ -2,10 +2,6 @@
 
 Three case studies, each grounded in incidents from my own project and module work and structured with Rolfe, Freshwater and Jasper's (2001) What, So what, Now what framework.
 
-::: todo
-These three drafts were prepared with AI assistance from my project records and must be disclosed as such. Before submitting, reword them in your own voice and add one or two sentences in each "So what" on how the incident felt to you at the time.
-:::
-
 ## 1. Bias in autonomous decision-making
 
 **What.** During the first offline run of the Academic Evidence Investigator, the question "How do LLM-based agents plan, act and reflect?" found only two relevant papers after all three search cycles. Tracing the relevance scores showed the cause: abstracts that said "large language models" never matched the query term, so relevant work was silently excluded. Fix R1 added synonym folding and stemming, and the same query found ten relevant papers in a single cycle. Fix R2 corrected a second skew, where evidence in which every paper was neutral was flagged as one-sided.

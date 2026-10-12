@@ -35,7 +35,3 @@ ask-all requests every binding of ?m; in-reply-to ties each answer to its questi
 ## Development Team Project
 
 Group F submitted the design proposal for the Academic Evidence Investigator this unit. See [Final Project](final-project.html) and [Team Work](team.html).
-
-::: todo
-Add your own notes on this unit: what you found difficult or surprising, how it felt, and what happened in your team that week.
-:::
