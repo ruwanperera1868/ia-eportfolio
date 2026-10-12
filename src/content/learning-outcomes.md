@@ -1,6 +1,28 @@
 # Learning Outcomes
 
-The module's four learning outcomes, and where this portfolio evidences each one.
+The module's four learning outcomes, and where this portfolio evidences each one. LO1 is analysing agent architectures, LO2 is applying agent techniques under risk and uncertainty, LO3 is deploying tools with legal, social, ethical and professional awareness, and LO4 is working effectively in a virtual development team.
+
+## Artefacts mapped to outcomes
+
+| Artefact | LO1 | LO2 | LO3 | LO4 |
+| --- | :-: | :-: | :-: | :-: |
+| [Unit 1](unit1.html) reflex and model-based agents | ✓ |  | ✓ |  |
+| [Unit 2](unit2.html) first-order logic and forward chaining | ✓ |  | ✓ |  |
+| [Unit 3](unit3.html) subsumption against BDI | ✓ |  | ✓ |  |
+| [Unit 4](unit4.html) hybrid agent and reserve sweep | ✓ | ✓ | ✓ |  |
+| [Unit 5](unit5.html) KQML agents and ontology | ✓ |  | ✓ |  |
+| [Unit 6](unit6.html) KQML/KIF dialogue and team design | ✓ |  |  | ✓ |
+| [Unit 7](unit7.html) Word2Vec skip-gram |  | ✓ | ✓ |  |
+| [Unit 8](unit8.html) parse trees and ambiguity |  | ✓ | ✓ |  |
+| [Unit 9](unit9.html) perceptron and hidden layer |  | ✓ | ✓ |  |
+| [Unit 10](unit10.html) data imbalance and bias |  | ✓ | ✓ |  |
+| [Unit 11](unit11.html) agent-based market | ✓ | ✓ | ✓ |  |
+| [Unit 12](unit12.html) future directions | ✓ |  | ✓ |  |
+| [Final project](final-project.html) Academic Evidence Investigator | ✓ | ✓ | ✓ |  |
+| [Team work](team.html) and [team meetings](forums.html) | ✓ |  |  | ✓ |
+| [Case studies](case-studies.html) | | ✓ | ✓ |  |
+| [Skills matrix and action plan](skills.html) |  |  | ✓ | ✓ |
+| [Final reflection](reflection.html) | ✓ | ✓ | ✓ | ✓ |
 
 ## 1. Identify and critically analyse agent-based systems, differentiating between architectures and approaches
 

@@ -6,7 +6,7 @@ SITE = ROOT.parent
 GROUPS = [
     ("Overview", [("index", "Home", ""), ("concepts", "Key concepts", ""), ("learning-outcomes", "Learning outcomes", ""), ("references", "References", "")]),
     ("Project", [("final-project", "Design vs implementation", ""), ("team", "Team work", "")]),
-    ("Reflection", [("case-studies", "Case studies", ""), ("reflection", "Final reflection", ""),
+    ("Reflection", [("case-studies", "Case studies", ""), ("reflection", "Final reflection", ""), ("skills", "Skills and action plan", ""),
                     ("forums", "Discussions", "")]),
     ("Units", [(f"unit{i}", None, str(i)) for i in range(1, 13)]),
 ]

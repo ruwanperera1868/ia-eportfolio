@@ -1,6 +1,8 @@
 # Collaborative Discussions
 
-Group F's discussions took place on video calls and in a WhatsApp group, so there are no forum threads to reproduce here. The main discussions, and what came out of each, are summarised below; the [team work](team.html) page has the full history of the design.
+## Team meetings and decisions
+
+Group F met on video calls and coordinated in a WhatsApp group, so there are no forum threads to reproduce here. This record of the main discussions and decisions serves as the team's meeting notes; the [team work](team.html) page has the full history of the design.
 
 | Discussion | Outcome |
 | --- | --- |

@@ -12,6 +12,9 @@ Group F worked across different countries and schedules to produce the Unit 6 de
 | Submitted design | Four agents, analysis and critique merged; BDI mapping and CrewAI comparison added | Unit 6 team report v2 |
 | Individual implementation | Built by Ruwan in Unit 11 against the submitted design | README and presentation |
 
-## Peer evaluation
+## Feedback from peers and tutors
 
+**Peer evaluation.** 
 The peer evaluation submitted at the end of the project described the team as well organised and constructively challenging, with one discussion that drifted off topic brought back on track. Individual scores for teammates are not published here. My self-evaluation totalled 29 of 35, noting one missed meeting.
+
+In the self-evaluation I identified my strengths as knowledge, experience, proactive input, leadership and content, and set myself the goal of attending every meeting in future. That goal is carried into my [action plan](skills.html).
