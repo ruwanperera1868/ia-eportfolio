@@ -40,4 +40,4 @@ Each unit page holds the activity, the code or design produced, its results, and
 
 ## Use of AI
 
-**Use of AI.** I used Claude (Anthropic) as an AI assistant during this module: to help write and debug the unit activity scripts and the Unit 11 implementation (as declared in the project README), to build this website, and to help draft and edit the case studies and reflection. I reviewed and revised all AI-assisted text, checked it against my own records and results, and am responsible for everything here.
+**Use of AI.** I used AI as an assistant during this module: to help debug the unit activity scripts and the Unit 11 implementation (as declared in the project README), and to enhance the e-portfolio website.
