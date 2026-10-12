@@ -14,9 +14,9 @@ This page holds the 1,000-word reflective piece, which is assessed as your own r
 
 ### So what (about 450 words)
 
-- **The pivot.** How did you first react when Isaac challenged the idea? What changed your mind, and what does that say about how you take criticism?
+- **The pivot.** How did you react when the original idea was challenged? What changed your mind, and what does that say about how you take criticism?
 - **Your contribution and the missed meeting.** Your self-score of 29 of 35. What would you do differently in a virtual team?
-- **The team.** How Luis's tangent was handled and what it taught you about keeping a distributed team focused.
+- **The team.** How a discussion that drifted off topic was brought back and what it taught you about keeping a distributed team focused.
 - **Design versus build.** The design trusted an LLM Critic and free hosted services. The build moved stopping into tested rules after the hosted Qwen model was withdrawn and Semantic Scholar throttled requests. Why did the design miss these risks? Link to Huang et al. (2025) on hallucination.
 - **Theory in practice.** Which module idea proved most useful in the build (for example, BDI commitment as the Planner, or bounded autonomy)?
 
