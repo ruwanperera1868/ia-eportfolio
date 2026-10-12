@@ -40,6 +40,4 @@ Each unit page holds the activity, the code or design produced, its results, and
 
 ## Use of AI
 
-::: todo
-Confirm or edit this statement so it matches the university's guidance and your own use: "Generative AI (Claude, Anthropic) was used to help prepare the weekly unit scripts and study notes and to assist with code and documentation for the Unit 11 implementation, as declared in its README. I ran, checked and am responsible for all submitted work; the reflections and case studies are my own."
-:::
+**Use of AI.** I used Claude (Anthropic) as an AI assistant during this module: to help write and debug the unit activity scripts and the Unit 11 implementation (as declared in the project README), to build this website, and to help draft and edit the case studies and reflection. I reviewed and revised all AI-assisted text, checked it against my own records and results, and am responsible for everything here.
