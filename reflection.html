@@ -16,13 +16,34 @@
 <aside class="sidebar" id="sidebar">
   <a class="brand" href="index.html"><span class="mark">IA</span><span><span class="name">Ruwan Perera</span><span class="sub">Intelligent Agents e-portfolio</span></span></a>
   <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
-  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="concepts.html"><span>Key concepts</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html" class="active" aria-current="page"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
+  <nav><div class="nav-group"><h4>Overview</h4><a href="index.html"><span>Home</span></a><a href="concepts.html"><span>Key concepts</span></a><a href="learning-outcomes.html"><span>Learning outcomes</span></a><a href="references.html"><span>References</span></a></div><div class="nav-group"><h4>Project</h4><a href="final-project.html"><span>Design vs implementation</span></a><a href="team.html"><span>Team work</span></a></div><div class="nav-group"><h4>Reflection</h4><a href="case-studies.html"><span>Case studies</span></a><a href="reflection.html" class="active" aria-current="page"><span>Final reflection</span></a><a href="forums.html"><span>Discussions</span></a></div><div class="nav-group"><h4>Units</h4><a href="unit1.html"><span class=num>1</span><span>Introduction to Agent-Based Computing</span></a><a href="unit2.html"><span class=num>2</span><span>Introducing First Order Logic</span></a><a href="unit3.html"><span class=num>3</span><span>Agent Architectures</span></a><a href="unit4.html"><span class=num>4</span><span>Hybrid Agent Architectures</span></a><a href="unit5.html"><span class=num>5</span><span>Agent Communication</span></a><a href="unit6.html"><span class=num>6</span><span>Working Together</span></a><a href="unit7.html"><span class=num>7</span><span>Natural Language Processing</span></a><a href="unit8.html"><span class=num>8</span><span>Understanding NLP</span></a><a href="unit9.html"><span class=num>9</span><span>Introduction to Adaptive Algorithms</span></a><a href="unit10.html"><span class=num>10</span><span>Deep Learning in Action</span></a><a href="unit11.html"><span class=num>11</span><span>Intelligent Agents in Action</span></a><a href="unit12.html"><span class=num>12</span><span>The Future of Intelligent Agents</span></a></div></nav>
 </aside>
 <main class="content">
 <header class="page-head"><p class="eyebrow">Reflection</p><h1>Final Reflection</h1></header>
 <div class="todo">
-<p>Paste your final 1,000-word reflective piece here once written, structured with Rolfe et al. (2001): <strong>What</strong> (the project, your role, the design and the build), <strong>So what</strong> (your behaviour and feelings, the team, the literature, why the design and implementation differed), <strong>Now what</strong> (what produced your learning and how you will act differently in practice).</p>
+<p>This page holds the 1,000-word reflective piece, which is assessed as your own reflection. Write it in your own words using the plan below. The facts are drawn from your records; the judgements and feelings must be yours.</p>
 </div>
+<h2 id="plan-about-1000-words">Plan (about 1,000 words)</h2>
+<h3 id="what-about-250-words">What (about 250 words)</h3>
+<ul>
+<li>The module: from reflex agents and logic to BDI, hybrid architectures, agent communication, NLP, neural networks and agent-based markets.</li>
+<li>The team project: Group F across several countries; your role; Isaac’s memo challenging the edge-SLM thesis planner; the move to the Academic Evidence Investigator; the five-agent draft becoming the four-agent submitted design.</li>
+<li>The build: LangGraph, Qwen run locally under Ollama, Semantic Scholar and Crossref; 83 tests; nine fixes from testing and live runs.</li>
+</ul>
+<h3 id="so-what-about-450-words">So what (about 450 words)</h3>
+<ul>
+<li><strong>The pivot.</strong> How did you first react when Isaac challenged the idea? What changed your mind, and what does that say about how you take criticism?</li>
+<li><strong>Your contribution and the missed meeting.</strong> Your self-score of 29 of 35. What would you do differently in a virtual team?</li>
+<li><strong>The team.</strong> How Luis’s tangent was handled and what it taught you about keeping a distributed team focused.</li>
+<li><strong>Design versus build.</strong> The design trusted an LLM Critic and free hosted services. The build moved stopping into tested rules after the hosted Qwen model was withdrawn and Semantic Scholar throttled requests. Why did the design miss these risks? Link to Huang et al. (2025) on hallucination.</li>
+<li><strong>Theory in practice.</strong> Which module idea proved most useful in the build (for example, BDI commitment as the Planner, or bounded autonomy)?</li>
+</ul>
+<h3 id="now-what-about-300-words">Now what (about 300 words)</h3>
+<ul>
+<li>What produced the learning: testing against known answers, live runs, peer challenge.</li>
+<li>How you will work differently: defining “done” as a testable rule, planning for services failing, reporting per-group results.</li>
+<li>Your practice: the agentic, explainable underwriting workbench in your Research Methods proposal, and what you will now build differently.</li>
+</ul>
 
 <nav class="pager"><a class="prev" href="case-studies.html"><small>Previous</small>Reflective Case Studies</a><a class="next" href="forums.html"><small>Next</small>Collaborative Discussions</a></nav>
 <footer class="footer"><span>Ruwan Perera · MSc Artificial Intelligence · University of Essex Online</span>

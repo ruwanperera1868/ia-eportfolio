@@ -4,7 +4,7 @@ import html, pathlib, re, subprocess
 ROOT = pathlib.Path(__file__).parent
 SITE = ROOT.parent
 GROUPS = [
-    ("Overview", [("index", "Home", ""), ("concepts", "Key concepts", ""), ("references", "References", "")]),
+    ("Overview", [("index", "Home", ""), ("concepts", "Key concepts", ""), ("learning-outcomes", "Learning outcomes", ""), ("references", "References", "")]),
     ("Project", [("final-project", "Design vs implementation", ""), ("team", "Team work", "")]),
     ("Reflection", [("case-studies", "Case studies", ""), ("reflection", "Final reflection", ""),
                     ("forums", "Discussions", "")]),

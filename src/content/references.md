@@ -4,6 +4,8 @@
 Check every entry against the original source before submission. Entries from the team report and implementation README were already verified there; module-reading entries were compiled from memory.
 :::
 
+Amodei, D., Olah, C., Steinhardt, J., Christiano, P., Schulman, J. and Mané, D. (2016) 'Concrete problems in AI safety', arXiv:1606.06565.
+
 Archibald, B., Calder, M., Sevegnani, M. and Xu, M. (2024) 'Quantitative modelling and analysis of BDI agents', *Software and Systems Modeling*, 23, pp. 343–367. doi:10.1007/s10270-023-01121-5.
 
 Austin, J.L. (1962) *How to Do Things with Words*. Oxford: Clarendon Press.
@@ -23,6 +25,8 @@ Brooks, R.A. (1991) 'Intelligence without representation', *Artificial Intellige
 Buolamwini, J. and Gebru, T. (2018) 'Gender shades: intersectional accuracy disparities in commercial gender classification', *Proceedings of Machine Learning Research*, 81, pp. 77–91.
 
 Chomsky, N. (1957) *Syntactic Structures*. The Hague: Mouton.
+
+European Parliament and Council of the European Union (2024) Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act). *Official Journal of the European Union*, L 2024/1689.
 
 Farmer, J.D. and Foley, D. (2009) 'The economy needs agent-based modelling', *Nature*, 460, pp. 685–686.
 
@@ -53,6 +57,8 @@ LeCun, Y., Bengio, Y. and Hinton, G. (2015) 'Deep learning', *Nature*, 521, pp. 
 Leitão, P. (2009) 'Agent-based distributed manufacturing control: a state-of-the-art survey', *Engineering Applications of Artificial Intelligence*, 22(7), pp. 979–991.
 
 Lewis, P. et al. (2020) 'Retrieval-augmented generation for knowledge-intensive NLP tasks', *Advances in Neural Information Processing Systems*, 33, pp. 9459–9474.
+
+Lundberg, S.M. and Lee, S.-I. (2017) 'A unified approach to interpreting model predictions', *Advances in Neural Information Processing Systems*, 30.
 
 Mikolov, T. et al. (2013) 'Efficient estimation of word representations in vector space', arXiv:1301.3781.
 
