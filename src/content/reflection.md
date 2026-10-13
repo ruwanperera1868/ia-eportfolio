@@ -26,7 +26,7 @@ The Unit 10 exercise reinforced this lesson: a classifier with 1% overall error 
 
 For my next project, I will write acceptance criteria before implementation and test assumptions about external services early. I will include configurable endpoints, bounded retries and clearly labelled fallbacks from the outset. Evaluation will cover individual cases and relevant groups, alongside overall results, with records that allow me to investigate errors.
 
-In virtual teamwork, I will prepare for meetings and send my input beforehand if I cannot attend, then confirm my understanding of decisions afterwards. I also want to invite criticism before becoming too committed to a design. Isaac's challenge was useful because I took the time to reconsider the requirements; I need to make that openness a consistent part of how I work.
+In virtual teamwork, I will prepare for meetings and send my input beforehand if I cannot attend, then confirm my understanding of decisions afterwards.
 
 These lessons are relevant to my work in insurance underwriting and my Research Methods proposal for an explainable agentic underwriting workbench. I plan to use explicit rules where decisions require justification, record each agent step and assess SHAP explanations for the learned risk score (Lundberg and Lee, 2017). I will also monitor errors by sector and company size. I will check which EU AI Act obligations apply to the intended use and deployment rather than assume that these measures alone establish compliance (European Parliament and Council of the European Union, 2024). The module has left me more cautious about judging an agent by its output alone. I now want to understand how it reached that output, where it fails and what evidence supports trusting it.
 
